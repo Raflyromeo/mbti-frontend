@@ -35,15 +35,16 @@ export default function UserLayout({ children }) {
       
       if (data?.tipeuser === "admin") {
         router.push("/admin");
-      } else if (data && !error) {
-        setProfil({
-          nama: data.nama || session.user.email.split("@")[0],
-          peran: data.tipeuser === "admin" ? "Administrator" : "User",
-          email: session.user.email,
-          avatar_url: data.avatar_url || ""
-        });
-        setLoading(false);
+        return;
       }
+
+      setProfil({
+        nama: data?.nama || session.user.email.split("@")[0],
+        peran: "User",
+        email: session.user.email,
+        avatar_url: data?.avatar_url || ""
+      });
+      setLoading(false);
 
       langganan = supabase
         .channel(`profil-realtime-${Date.now()}`)
