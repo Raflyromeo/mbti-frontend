@@ -23,7 +23,7 @@ export default function AdminLayout({ children }) {
     const periksaAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { router.push("/masuk-admin"); return; }
-      const { data, error } = await supabase.from("user").select("nama, tipeuser, avatar_url").eq("iduser", session.user.id).single();
+      const { data, error } = await supabase.from("user").select("nama, tipeuser, avatar_url").eq("iduser", session.user.id).maybeSingle();
 
       if (error || data?.tipeuser !== "admin") { 
         router.push("/tes"); 

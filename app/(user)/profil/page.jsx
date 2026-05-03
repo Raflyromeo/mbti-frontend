@@ -37,7 +37,7 @@ export default function Profil() {
         .from("user")
         .select("nama, tgllahir, jenis_kelamin, pekerjaan, tlp, alamat, avatar_url")
         .eq("iduser", session.user.id)
-        .single();
+        .maybeSingle();
 
       if (!error && data) {
         setProfil({

@@ -41,7 +41,7 @@ export default function MasukAdmin() {
         .from("user")
         .select("tipeuser")
         .eq("iduser", session.user.id)
-        .single();
+        .maybeSingle();
 
       if (!errCek && data?.tipeuser === "admin") {
         router.push("/admin");

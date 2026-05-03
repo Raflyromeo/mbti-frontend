@@ -31,7 +31,7 @@ export function ProfilUser() {
           .from("user")
           .select("*")
           .eq("iduser", session.user.id)
-          .single();
+          .maybeSingle();
 
         if (data) {
           setDataUser(data);

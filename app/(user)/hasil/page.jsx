@@ -40,7 +40,7 @@ function KontenHasil() {
           .from("hasil")
           .select("skor_persentase, tipe_kepribadian(nama_tipe)")
           .eq("idhasil", idHasil)
-          .single();
+          .maybeSingle();
 
         if (data && !error) {
           tipeDominan = data.tipe_kepribadian.nama_tipe;
@@ -68,7 +68,7 @@ function KontenHasil() {
           saran(saran)
         `)
         .eq("nama_tipe", tipeDominan)
-        .single();
+        .maybeSingle();
 
       let teksKeterangan = "Belum ada keterangan.";
       let teksSaran = "Belum ada saran.";

@@ -22,7 +22,7 @@ export function DasborUser() {
           .from("user")
           .select("nama")
           .eq("iduser", session.user.id)
-          .single();
+          .maybeSingle();
         if (userData?.nama) setNama(userData.nama.split(" ")[0]);
 
         

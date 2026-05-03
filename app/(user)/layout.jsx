@@ -31,7 +31,7 @@ export default function UserLayout({ children }) {
         .from("user")
         .select("nama, tipeuser, username, avatar_url")
         .eq("iduser", session.user.id)
-        .single();
+        .maybeSingle();
       
       if (data?.tipeuser === "admin") {
         router.push("/admin");
