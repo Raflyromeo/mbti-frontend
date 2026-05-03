@@ -1,26 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-utama: var(--utama);
+  --color-utama-foreground: var(--utama-foreground);
+  --color-kedua: var(--kedua);
+  --color-kedua-foreground: var(--kedua-foreground);
+  --color-aksen: var(--aksen);
+  --color-aksen-foreground: var(--aksen-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #fbf9f6;
+  --foreground: #121212;
+  
+  --utama: #ff5252;
+  --utama-foreground: #ffffff;
+  
+  --kedua: #4ecdc4;
+  --kedua-foreground: #121212;
+  
+  --aksen: #ffe66d;
+  --aksen-foreground: #121212;
+  
+  --muted: #e2e8f0;
+  --muted-foreground: #64748b;
+  
+  --border: #121212;
+  --input: #ffffff;
+  --ring: #121212;
+  
+  --radius: 0px; 
 }
+
+.dark {
+  /* Background gelap lembut, bukan pure black */
+  --background: #0f1117;
+  --foreground: #e8e6e3;
+  
+  /* Merah lebih lembut agar tidak terlalu mencolok di gelap */
+  --utama: #ef4444;
+  --utama-foreground: #ffffff;
+  
+  /* Teal lebih gelap untuk kontras yang pas */
+  --kedua: #2dd4bf;
+  --kedua-foreground: #0f1117;
+  
+  /* Kuning digelapkan agar tidak menyilaukan */
+  --aksen: #eab308;
+  --aksen-foreground: #0f1117;
+  
+  /* Surface abu-abu gelap nyaman */
+  --muted: #1a1f2e;
+  --muted-foreground: #9ca3af;
+  
+  /* Border abu-abu, bukan putih polos */
+  --border: #374151;
+  --input: #1a1f2e;
+  --ring: #6b7280;
+}
+
+@keyframes marquee-track {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes marquee-reverse {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-marquee-track {
+  animation: marquee-track var(--duration, 40s) linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse var(--duration, 40s) linear infinite;
+}
+
+/* Sembunyikan scrollbar */
+.custom-scrollbar::-webkit-scrollbar { height: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+html, body {
+  height: 100%;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 72px 1fr;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.dashboard-sidebar {
+  grid-row: 1 / 3;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.dashboard-header {
+  grid-column: 2;
+  grid-row: 1;
+  height: 72px;
+}
+
+.dashboard-main {
+  grid-column: 2;
+  grid-row: 2;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.neobrutalism-box {
+  border: 3px solid var(--border);
+  box-shadow: 6px 6px 0px 0px var(--border);
+  transition: all 0.2s ease-in-out;
+}
+
+.neobrutalism-box:hover {
+  box-shadow: 2px 2px 0px 0px var(--border);
+  transform: translate(4px, 4px);
+}
+
+.dark .neobrutalism-box {
+  box-shadow: 6px 6px 0px 0px var(--border);
+}
+
+.dark .neobrutalism-box:hover {
+  box-shadow: 2px 2px 0px 0px var(--border);
+  transform: translate(4px, 4px);
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
