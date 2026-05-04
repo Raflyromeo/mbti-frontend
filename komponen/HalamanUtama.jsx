@@ -206,24 +206,23 @@ export function HalamanUtama() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // ── Hero dihandle Framer Motion — GSAP hanya untuk ScrollTrigger section bawah ──
+      let triggers = [];
 
-      // ── Helper: buat ScrollTrigger dengan default yang aman ──
       const st = (trigger, vars) =>
         gsap.from(trigger, {
           scrollTrigger: {
             trigger,
             start: "top 92%",
-            toggleActions: "play none none none", // TIDAK reverse — elemen tetap kelihatan
+            toggleActions: "play none none none",
           },
           overwrite: true,
           ...vars,
         });
 
-      // ── Section Cara Kerja ──
+
       st(".gsap-cara-judul", { x: -50, opacity: 0, duration: 0.7 });
 
-      // Setiap item cara-kerja punya ScrollTrigger sendiri (bukan 1 trigger untuk semua)
+
       gsap.utils.toArray(".gsap-cara-item").forEach((el, i) => {
         gsap.from(el, {
           scrollTrigger: { trigger: el, start: "top 93%", toggleActions: "play none none none" },
@@ -233,11 +232,11 @@ export function HalamanUtama() {
 
       st(".gsap-preview", { x: 60, opacity: 0, duration: 0.8 });
 
-      // ── Section Tipe MBTI ──
+
       st(".gsap-tipe-judul", { y: -30, opacity: 0, duration: 0.7 });
       st(".gsap-tipe-kartu",  { y: 35,  opacity: 0, duration: 0.7 });
 
-      // ── CTA Section ──
+
       st(".gsap-cta-section", { scale: 0.95, opacity: 0, duration: 0.7 });
     });
 
@@ -307,7 +306,6 @@ export function HalamanUtama() {
 
           <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
 
-            {/* Badge */}
             <motion.span
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -317,7 +315,6 @@ export function HalamanUtama() {
               <Check className="w-3 h-3" /> Sistem Pakar · Forward Chaining · 16 Tipe MBTI
             </motion.span>
 
-            {/* Title */}
             <motion.h1
               initial={{ opacity: 0, y: 44 }}
               animate={{ opacity: 1, y: 0 }}
@@ -328,7 +325,6 @@ export function HalamanUtama() {
               Dirimu.
             </motion.h1>
 
-            {/* Subtitle */}
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -338,7 +334,6 @@ export function HalamanUtama() {
               Temukan 1 dari 16 tipe kepribadian MBTI-mu melalui 32 pertanyaan yang dirancang secara ilmiah.
             </motion.p>
 
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 22 }}

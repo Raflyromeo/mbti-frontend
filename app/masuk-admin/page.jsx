@@ -61,7 +61,7 @@ export default function MasukAdmin() {
 
       <div className="max-w-md w-full relative z-10 space-y-4">
 
-        {/* Back link */}
+
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           animate={{ opacity: 1, x: 0 }}
@@ -72,7 +72,7 @@ export default function MasukAdmin() {
           </Link>
         </motion.div>
 
-        {/* Card */}
+
         <motion.div
           initial={{ opacity: 0, y: 36, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

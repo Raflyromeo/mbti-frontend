@@ -44,7 +44,7 @@ export default function UserLayout({ children }) {
       });
       setLoading(false);
 
-      // Buat channel baru, .on() HARUS sebelum .subscribe()
+
       channel = supabase.channel(`profil-user-${session.user.id}`);
       channel
         .on(
