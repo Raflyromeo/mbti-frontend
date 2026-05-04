@@ -179,14 +179,14 @@ function KontenHasil() {
       <div className="w-full max-w-4xl space-y-8">
         <Breadcrumb />
 
-        <Kartu className="text-center py-12 bg-[var(--aksen)] text-[var(--aksen-foreground)] animasi-hasil rounded-2xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          <KartuDeskripsi className="text-xl uppercase font-bold text-[var(--foreground)] mb-2">
+        <Kartu className="text-center py-12 bg-[var(--aksen)] text-[var(--aksen-foreground)] animasi-hasil rounded-2xl border-4 border-[var(--border)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <KartuDeskripsi className="text-xl uppercase font-bold opacity-90 mb-2">
             Tipe Kepribadian Anda
           </KartuDeskripsi>
           <KartuJudul className="text-6xl md:text-8xl tracking-tighter mb-4">
             {hasil.tipe_dominan}
           </KartuJudul>
-          <div className="max-w-2xl mx-auto px-4 mt-6 border-t-4 border-black pt-6">
+          <div className="max-w-2xl mx-auto px-4 mt-6 border-t-4 border-[var(--border)] pt-6 opacity-90">
             <p className="text-lg md:text-xl font-bold leading-relaxed">
               {hasil.keterangan}
             </p>
@@ -194,7 +194,7 @@ function KontenHasil() {
         </Kartu>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animasi-hasil">
-          <Kartu className="h-full rounded-2xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <Kartu className="h-full rounded-2xl border-4 border-[var(--border)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <KartuJudul>Rincian Dimensi</KartuJudul>
             <div className="mt-8">
               <BarDimensi label1="E" val1={hasil.persentase.E} label2="I" val2={hasil.persentase.I} warna="var(--utama)" />
@@ -204,22 +204,22 @@ function KontenHasil() {
             </div>
           </Kartu>
 
-          <Kartu className="flex flex-col justify-center gap-6 h-full rounded-2xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-[var(--kedua)] text-black">
+          <Kartu className="flex flex-col justify-center gap-6 h-full rounded-2xl border-4 border-[var(--border)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-[var(--kedua)] text-[var(--kedua-foreground)]">
             <KartuJudul className="flex items-center gap-3"><Lightbulb className="w-8 h-8" /> Saran Pengembangan</KartuJudul>
-            <KartuDeskripsi className="text-lg font-bold">
+            <KartuDeskripsi className="text-lg font-bold opacity-90">
               {hasil.saran}
             </KartuDeskripsi>
-            <div className="h-1 w-full bg-black my-2"></div>
+            <div className="h-1 w-full bg-[var(--kedua-foreground)] opacity-20 my-2"></div>
             <KartuJudul>Aksi Lanjutan</KartuJudul>
             <KartuDeskripsi>
               Unduh hasil tes Anda sebagai file PDF atau ulangi kuesioner jika Anda merasa ada yang kurang tepat.
             </KartuDeskripsi>
 
-            <Tombol varian="utama" ukuran="lg" onClick={unduhPDF} className="w-full gap-2 justify-center bg-[var(--utama)] text-[var(--utama-foreground)] border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform">
+            <Tombol varian="utama" ukuran="lg" onClick={unduhPDF} className="w-full gap-2 justify-center bg-[var(--utama)] text-[var(--utama-foreground)] border-4 border-[var(--border)] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform">
               <Download className="w-5 h-5" /> Unduh Laporan PDF
             </Tombol>
 
-            <Tombol varian="outline" ukuran="lg" onClick={ulangiTes} className="w-full gap-2 justify-center bg-white text-black hover:bg-gray-100 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform">
+            <Tombol varian="outline" ukuran="lg" onClick={ulangiTes} className="w-full gap-2 justify-center bg-[var(--background)] text-[var(--foreground)] hover:bg-[var(--muted)] border-4 border-[var(--border)] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform">
               <RotateCcw className="w-5 h-5" /> Ulangi Tes
             </Tombol>
           </Kartu>
