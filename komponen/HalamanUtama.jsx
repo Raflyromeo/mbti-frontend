@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { gunakanTema } from "@/komponen/PenyediaTema";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
 import {
   BrainCircuit, Play, ShieldCheck, Users, Sun, Moon,
   Menu, LogIn, ChevronDown, ArrowRight, X, Check,
@@ -205,12 +206,7 @@ export function HalamanUtama() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // ── Hero: langsung animasi saat mount ──
-      const tl = gsap.timeline({ defaults: { ease: "power3.out", overwrite: true } });
-      tl.from(".gsap-hero-badge", { y: -24, opacity: 0, duration: 0.55 }, 0.1)
-        .from(".gsap-hero-title",  { y: 44,  opacity: 0, duration: 0.75 }, 0.25)
-        .from(".gsap-hero-sub",   { y: 30,  opacity: 0, duration: 0.65 }, 0.42)
-        .from(".gsap-hero-cta",   { y: 22,  opacity: 0, duration: 0.55, stagger: 0.14 }, 0.58);
+      // ── Hero dihandle Framer Motion — GSAP hanya untuk ScrollTrigger section bawah ──
 
       // ── Helper: buat ScrollTrigger dengan default yang aman ──
       const st = (trigger, vars) =>
@@ -310,23 +306,65 @@ export function HalamanUtama() {
           <div className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-[var(--aksen)] opacity-20 rounded-full blur-[80px] pointer-events-none -z-10"/>
 
           <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
-            <span className="gsap-hero-badge inline-flex items-center gap-2 bg-[var(--aksen)] border-2 border-black text-xs font-black px-4 py-1.5 rounded-full mb-8 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+
+            {/* Badge */}
+            <motion.span
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
+              className="inline-flex items-center gap-2 bg-[var(--aksen)] border-2 border-black text-xs font-black px-4 py-1.5 rounded-full mb-8 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+            >
               <Check className="w-3 h-3" /> Sistem Pakar · Forward Chaining · 16 Tipe MBTI
-            </span>
-            <h1 className="gsap-hero-title text-6xl md:text-9xl font-black tracking-tighter leading-[1.05] mb-8">
+            </motion.span>
+
+            {/* Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 44 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, ease: "easeOut", delay: 0.25 }}
+              className="text-6xl md:text-9xl font-black tracking-tighter leading-[1.05] mb-8"
+            >
               Kenali <span className="text-[var(--utama)] italic">Potensi</span><br />
               Dirimu.
-            </h1>
-            <p className="gsap-hero-sub text-xl md:text-2xl font-medium text-gray-500 max-w-2xl mb-10">
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: "easeOut", delay: 0.42 }}
+              className="text-xl md:text-2xl font-medium text-gray-500 max-w-2xl mb-10"
+            >
               Temukan 1 dari 16 tipe kepribadian MBTI-mu melalui 32 pertanyaan yang dirancang secara ilmiah.
-            </p>
+            </motion.p>
+
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/masuk" className="gsap-hero-cta inline-flex items-center justify-center gap-3 bg-[var(--utama)] text-white font-black px-10 py-5 rounded-2xl text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
-                <Play className="w-6 h-6 fill-current" /> Ikuti Tes Gratis
-              </Link>
-              <button onClick={() => scrollKe("cara-kerja")} className="gsap-hero-cta inline-flex items-center justify-center gap-3 border-4 border-black font-black px-10 py-5 rounded-2xl text-xl bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
-                Pelajari Lebih <ArrowRight className="w-6 h-6" />
-              </button>
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: "easeOut", delay: 0.58 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Link href="/masuk" className="inline-flex items-center justify-center gap-3 bg-[var(--utama)] text-white font-black px-10 py-5 rounded-2xl text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
+                  <Play className="w-6 h-6 fill-current" /> Ikuti Tes Gratis
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: "easeOut", delay: 0.72 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <button
+                  onClick={() => scrollKe("cara-kerja")}
+                  className="inline-flex items-center justify-center gap-3 border-4 border-black font-black px-10 py-5 rounded-2xl text-xl bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all"
+                >
+                  Pelajari Lebih <ArrowRight className="w-6 h-6" />
+                </button>
+              </motion.div>
             </div>
           </div>
         </section>
