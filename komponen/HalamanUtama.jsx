@@ -251,7 +251,7 @@ export function HalamanUtama() {
     <div className="flex flex-col min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
       
-      <header className="sticky top-0 z-50 bg-[var(--background)]/95 backdrop-blur-md border-b-4 border-black px-6 md:px-12 py-0 flex items-center justify-between h-16">
+      <header className="fixed top-0 left-0 w-full z-50 bg-[var(--background)]/95 backdrop-blur-md border-b-4 border-black px-6 md:px-12 py-0 flex items-center justify-between h-16">
         <div className="flex items-center gap-10">
           <Link href="/" className="font-black text-xl uppercase tracking-tighter flex items-center gap-2">
             <BrainCircuit className="w-6 h-6 text-[var(--utama)]" /> MBTI Pakar
@@ -297,7 +297,7 @@ export function HalamanUtama() {
         </div>
       )}
 
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
 
         
         <section id="beranda" className="relative px-6 md:px-16 pt-20 pb-16 overflow-hidden">
