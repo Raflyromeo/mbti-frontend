@@ -23,7 +23,8 @@ export default function AdminLayout({ children }) {
 
     const periksaAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session || unmounted) { router.push("/masuk-admin"); return; }
+      if (unmounted) return;
+      if (!session) { router.push("/masuk-admin"); return; }
 
       const { data, error } = await supabase
         .from("user")

@@ -23,7 +23,8 @@ export default function UserLayout({ children }) {
 
     const ambilProfil = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session || unmounted) { router.push("/masuk"); return; }
+      if (unmounted) return;
+      if (!session) { router.push("/masuk"); return; }
 
       const { data } = await supabase
         .from("user")
