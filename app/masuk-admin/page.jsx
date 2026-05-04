@@ -99,6 +99,7 @@ export default function MasukAdmin() {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="adminmbti"
                   required
+                  autoComplete="username"
                   className="w-full neobrutalism-box p-3 bg-white text-black focus:outline-none"
                 />
               </motion.div>
@@ -117,6 +118,7 @@ export default function MasukAdmin() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   required
+                  autoComplete="current-password"
                   className="w-full neobrutalism-box p-3 bg-white text-black focus:outline-none"
                 />
               </motion.div>

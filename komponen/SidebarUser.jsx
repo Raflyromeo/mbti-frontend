@@ -29,7 +29,7 @@ export function SidebarUser({ dilipat, onTutup, profil, tema, setTema }) {
         ${dilipat ? "lg:w-24" : "lg:w-72"}
       `}
     >
-      <div className={`hidden lg:flex p-4 items-center ${dilipat ? "justify-center" : "justify-start gap-2"} h-16 border-b-4 border-[var(--border)] bg-[var(--background)] shrink-0`}>
+      <div className={`hidden lg:flex items-center ${dilipat ? "justify-center p-4" : "justify-start gap-2 px-8 py-4"} h-16 border-b-4 border-[var(--border)] bg-[var(--background)] shrink-0`}>
         {dilipat ? (
           <div className="w-10 h-10 bg-red-500 text-white font-black text-xl flex items-center justify-center border-4 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             <BrainCircuit className="w-5 h-5" />
