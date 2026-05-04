@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/utilitas/supabase";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { useRouter } from "next/navigation";
 import { ShieldAlert, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { gsap } from "gsap";
 
 export default function MasukAdmin() {
   const [username, setUsername] = useState("");
@@ -14,6 +15,15 @@ export default function MasukAdmin() {
   const [loading, setLoading] = useState(false);
   const [pesanError, setPesanError] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".gsap-admin-back", { x: -30, opacity: 0, duration: 0.5, ease: "power3.out", delay: 0.1 });
+      gsap.from(".gsap-admin-icon", { y: -25, opacity: 0, scale: 0.8, duration: 0.6, ease: "back.out(1.5)", delay: 0.2 });
+      gsap.from(".gsap-admin-kartu", { y: 40, opacity: 0, scale: 0.97, duration: 0.7, ease: "power3.out", delay: 0.35 });
+    });
+    return () => ctx.revert();
+  }, []);
 
   const tanganiMasukAdmin = async (e) => {
     e.preventDefault();
@@ -59,12 +69,12 @@ export default function MasukAdmin() {
       <div className="absolute inset-0 pattern-dots opacity-10"></div>
       
       <div className="max-w-md w-full relative z-10 space-y-4">
-        <Link href="/" className="inline-flex items-center gap-2 font-black uppercase text-sm hover:text-[var(--kedua)] transition-colors">
+        <Link href="/" className="gsap-admin-back inline-flex items-center gap-2 font-black uppercase text-sm hover:text-[var(--kedua)] transition-colors">
           <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
         </Link>
 
-        <Kartu className="w-full p-8 border-4 border-black bg-[var(--kedua)] text-[var(--kedua-foreground)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl">
-        <div className="flex justify-center mb-6">
+        <Kartu className="gsap-admin-kartu w-full p-8 border-4 border-black bg-[var(--kedua)] text-[var(--kedua-foreground)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl">
+        <div className="gsap-admin-icon flex justify-center mb-6">
           <div className="p-4 bg-white border-4 border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <ShieldAlert className="w-10 h-10 text-black" />
           </div>

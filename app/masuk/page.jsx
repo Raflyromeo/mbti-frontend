@@ -1,41 +1,42 @@
 "use client";
 
-import { useEffect } from "react";
-
+import { useEffect, useRef } from "react";
 import { supabase } from "@/utilitas/supabase";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BrainCircuit } from "lucide-react";
 import Link from "next/link";
+import { gsap } from "gsap";
 
 export default function Masuk() {
   const router = useRouter();
+  const kartuRef = useRef(null);
 
   useEffect(() => {
-    
     const periksaSesi = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        arahkanPengguna(session.user.id);
-      }
+      if (session) arahkanPengguna(session.user.id);
     };
     periksaSesi();
 
-    
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        arahkanPengguna(session.user.id);
-      }
+      if (event === "SIGNED_IN" && session) arahkanPengguna(session.user.id);
     });
 
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
+    return () => { authListener.subscription.unsubscribe(); };
+  }, []);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".gsap-login-back", { x: -30, opacity: 0, duration: 0.5, ease: "power3.out", delay: 0.1 });
+      gsap.from(".gsap-login-logo", { y: -20, opacity: 0, duration: 0.5, ease: "power3.out", delay: 0.2 });
+      gsap.from(".gsap-login-kartu", { y: 40, opacity: 0, scale: 0.97, duration: 0.7, ease: "power3.out", delay: 0.35 });
+    });
+    return () => ctx.revert();
   }, []);
 
   const arahkanPengguna = async (userId) => {
-    
     await new Promise((resolve) => setTimeout(resolve, 500));
     router.push("/dasbor");
   };
@@ -43,35 +44,40 @@ export default function Masuk() {
   const tanganiMasukGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/dasbor`
-      }
+      options: { redirectTo: `${window.location.origin}/dasbor` }
     });
   };
 
   return (
     <main className="min-h-screen flex items-center justify-center p-6 bg-[var(--muted)] relative overflow-hidden">
       <div className="absolute inset-0 pattern-dots opacity-10"></div>
-      
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-[var(--utama)] opacity-10 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[var(--aksen)] opacity-15 rounded-full blur-[80px] pointer-events-none" />
+
       <div className="max-w-md w-full relative z-10 space-y-4">
-        <Link href="/" className="inline-flex items-center gap-2 font-black uppercase text-sm hover:text-[var(--utama)] transition-colors">
+        <Link href="/" className="gsap-login-back inline-flex items-center gap-2 font-black uppercase text-sm hover:text-[var(--utama)] transition-colors">
           <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
         </Link>
 
-        <Kartu className="w-full p-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl">
+        <div className="gsap-login-logo flex justify-center mb-2">
+          <div className="flex items-center gap-2 font-black text-2xl uppercase tracking-tighter">
+            <BrainCircuit className="w-8 h-8 text-[var(--utama)]" /> MBTI Pakar
+          </div>
+        </div>
+
+        <Kartu ref={kartuRef} className="gsap-login-kartu w-full p-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl">
           <KartuJudul className="text-3xl text-center">Masuk</KartuJudul>
           <KartuDeskripsi className="text-center mb-8">
             Masuk dengan akun Google Anda untuk memulai tes MBTI dan menyimpan profil.
           </KartuDeskripsi>
 
           <div className="space-y-6">
-            <Tombol 
-              varian="utama" 
+            <Tombol
+              varian="utama"
               ukuran="lg"
-              className="w-full text-lg gap-3 py-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform bg-white text-black hover:bg-gray-50" 
+              className="w-full text-lg gap-3 py-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform bg-white text-black hover:bg-gray-50"
               onClick={tanganiMasukGoogle}
             >
-              
               <svg className="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>

@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { gunakanTema } from "@/komponen/PenyediaTema";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   BrainCircuit, Play, ShieldCheck, Users, Sun, Moon,
   Menu, LogIn, ChevronDown, ArrowRight, X, Check,
@@ -188,11 +190,56 @@ export function HalamanUtama() {
   const { tema, setTema } = gunakanTema();
   const [menuBuka, setMenuBuka] = useState(false);
 
-  
   useEffect(() => {
     document.body.style.overflow = menuBuka ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuBuka]);
+
+  const scrollKe = useCallback((id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setMenuBuka(false);
+  }, []);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      gsap.from(".gsap-hero-badge", { y: -20, opacity: 0, duration: 0.6, ease: "power3.out", delay: 0.1 });
+      gsap.from(".gsap-hero-title", { y: 40, opacity: 0, duration: 0.8, ease: "power3.out", delay: 0.25 });
+      gsap.from(".gsap-hero-sub", { y: 30, opacity: 0, duration: 0.7, ease: "power3.out", delay: 0.45 });
+      gsap.from(".gsap-hero-cta", { y: 20, opacity: 0, duration: 0.6, ease: "power3.out", delay: 0.6, stagger: 0.15 });
+
+      gsap.from(".gsap-cara-judul", {
+        scrollTrigger: { trigger: ".gsap-cara-judul", start: "top 85%", toggleActions: "play none none reverse" },
+        x: -50, opacity: 0, duration: 0.7, ease: "power3.out"
+      });
+      gsap.from(".gsap-cara-item", {
+        scrollTrigger: { trigger: ".gsap-cara-item", start: "top 85%", toggleActions: "play none none reverse" },
+        y: 40, opacity: 0, duration: 0.6, ease: "power3.out", stagger: 0.15
+      });
+      gsap.from(".gsap-preview", {
+        scrollTrigger: { trigger: ".gsap-preview", start: "top 85%", toggleActions: "play none none reverse" },
+        x: 60, opacity: 0, duration: 0.8, ease: "power3.out"
+      });
+
+      gsap.from(".gsap-tipe-judul", {
+        scrollTrigger: { trigger: ".gsap-tipe-judul", start: "top 85%", toggleActions: "play none none reverse" },
+        y: -30, opacity: 0, duration: 0.7, ease: "power3.out"
+      });
+      gsap.from(".gsap-tipe-kartu", {
+        scrollTrigger: { trigger: ".gsap-tipe-kartu", start: "top 85%", toggleActions: "play none none reverse" },
+        y: 30, opacity: 0, duration: 0.7, ease: "power3.out"
+      });
+
+      gsap.from(".gsap-cta-section", {
+        scrollTrigger: { trigger: ".gsap-cta-section", start: "top 85%", toggleActions: "play none none reverse" },
+        scale: 0.95, opacity: 0, duration: 0.7, ease: "power3.out"
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--background)] text-[var(--foreground)]">
@@ -204,9 +251,9 @@ export function HalamanUtama() {
             <BrainCircuit className="w-6 h-6 text-[var(--utama)]" /> MBTI Pakar
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-bold">
-            <Link href="#beranda" className="hover:text-[var(--utama)] transition-colors">Beranda</Link>
-            <Link href="#cara-kerja" className="hover:text-[var(--utama)] transition-colors">Cara Kerja</Link>
-            <Link href="#tipe-mbti" className="hover:text-[var(--utama)] transition-colors">Tipe Kepribadian</Link>
+            <button onClick={() => scrollKe("beranda")} className="hover:text-[var(--utama)] transition-colors">Beranda</button>
+            <button onClick={() => scrollKe("cara-kerja")} className="hover:text-[var(--utama)] transition-colors">Cara Kerja</button>
+            <button onClick={() => scrollKe("tipe-mbti")} className="hover:text-[var(--utama)] transition-colors">Tipe Kepribadian</button>
           </nav>
         </div>
         <div className="hidden md:flex items-center gap-3">
@@ -234,9 +281,9 @@ export function HalamanUtama() {
       
       {menuBuka && (
         <div className="md:hidden fixed inset-0 top-16 bg-[var(--background)] border-t-4 border-black px-8 py-8 flex flex-col gap-6 text-lg font-black uppercase z-40">
-          <Link href="#beranda" onClick={() => setMenuBuka(false)}>Beranda</Link>
-          <Link href="#cara-kerja" onClick={() => setMenuBuka(false)}>Cara Kerja</Link>
-          <Link href="#tipe-mbti" onClick={() => setMenuBuka(false)}>Tipe Kepribadian</Link>
+          <button onClick={() => scrollKe("beranda")} onClick={() => setMenuBuka(false)}>Beranda</button>
+          <button onClick={() => scrollKe("cara-kerja")} onClick={() => setMenuBuka(false)}>Cara Kerja</button>
+          <button onClick={() => scrollKe("tipe-mbti")} onClick={() => setMenuBuka(false)}>Tipe Kepribadian</button>
           <div className="h-1 bg-black/10 my-2"/>
           <Link href="/masuk" onClick={() => setMenuBuka(false)} className="flex items-center gap-2 bg-[var(--utama)] text-white px-6 py-4 rounded-2xl border-4 border-black justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <LogIn className="w-5 h-5" /> Masuk
@@ -252,23 +299,23 @@ export function HalamanUtama() {
           <div className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-[var(--aksen)] opacity-20 rounded-full blur-[80px] pointer-events-none -z-10"/>
 
           <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
-            <span className="inline-flex items-center gap-2 bg-[var(--aksen)] border-2 border-black text-xs font-black px-4 py-1.5 rounded-full mb-8 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+            <span className="gsap-hero-badge inline-flex items-center gap-2 bg-[var(--aksen)] border-2 border-black text-xs font-black px-4 py-1.5 rounded-full mb-8 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
               <Check className="w-3 h-3" /> Sistem Pakar · Forward Chaining · 16 Tipe MBTI
             </span>
-            <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[1.05] mb-8">
+            <h1 className="gsap-hero-title text-6xl md:text-9xl font-black tracking-tighter leading-[1.05] mb-8">
               Kenali <span className="text-[var(--utama)] italic">Potensi</span><br />
               Dirimu.
             </h1>
-            <p className="text-xl md:text-2xl font-medium text-gray-500 max-w-2xl mb-10">
+            <p className="gsap-hero-sub text-xl md:text-2xl font-medium text-gray-500 max-w-2xl mb-10">
               Temukan 1 dari 16 tipe kepribadian MBTI-mu melalui 32 pertanyaan yang dirancang secara ilmiah.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/masuk" className="inline-flex items-center justify-center gap-3 bg-[var(--utama)] text-white font-black px-10 py-5 rounded-2xl text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
+              <Link href="/masuk" className="gsap-hero-cta inline-flex items-center justify-center gap-3 bg-[var(--utama)] text-white font-black px-10 py-5 rounded-2xl text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
                 <Play className="w-6 h-6 fill-current" /> Ikuti Tes Gratis
               </Link>
-              <Link href="#cara-kerja" className="inline-flex items-center justify-center gap-3 border-4 border-black font-black px-10 py-5 rounded-2xl text-xl bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
+              <button onClick={() => scrollKe("cara-kerja")} className="gsap-hero-cta inline-flex items-center justify-center gap-3 border-4 border-black font-black px-10 py-5 rounded-2xl text-xl bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
                 Pelajari Lebih <ArrowRight className="w-6 h-6" />
-              </Link>
+              </button>
             </div>
           </div>
         </section>
@@ -279,7 +326,7 @@ export function HalamanUtama() {
         
         <section id="cara-kerja" className="px-6 md:px-16 py-24 max-w-7xl mx-auto">
           <div className="mb-16">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">Cara Kerja</h2>
+            <h2 className="gsap-cara-judul text-5xl md:text-7xl font-black tracking-tighter mb-4">Cara Kerja</h2>
             <p className="text-xl text-gray-500 font-medium">3 langkah mudah untuk mengenal dirimu</p>
           </div>
 
@@ -290,7 +337,7 @@ export function HalamanUtama() {
                 { ikon: Play, no: "02", judul: "Jawab Jujur", desc: "Jawab 32 pernyataan dengan percaya insting pertamamu — jangan terlalu lama berpikir." },
                 { ikon: Users, no: "03", judul: "Terima Hasilmu", desc: "Dapatkan tipe kepribadian lengkap beserta persentase dimensi E/I, S/N, T/F, J/P." },
               ].map((item) => (
-                <div key={item.no} className="flex gap-5 p-6 rounded-2xl border-4 border-black bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all group">
+                <div key={item.no} className="gsap-cara-item flex gap-5 p-6 rounded-2xl border-4 border-black bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all group">
                   <div className="shrink-0 w-14 h-14 rounded-xl bg-[var(--aksen)] border-2 border-black flex items-center justify-center font-black text-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none transition-all">
                     {item.no}
                   </div>
@@ -301,7 +348,7 @@ export function HalamanUtama() {
                 </div>
               ))}
             </div>
-            <DasborPreview />
+            <div className="gsap-preview"><DasborPreview /></div>
           </div>
         </section>
 
@@ -309,16 +356,16 @@ export function HalamanUtama() {
         <section id="tipe-mbti" className="px-6 md:px-16 py-24 bg-[var(--muted)] border-y-4 border-black">
           <div className="max-w-5xl mx-auto">
             <div className="mb-12">
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">16 Tipe Kepribadian</h2>
+              <h2 className="gsap-tipe-judul text-5xl md:text-7xl font-black tracking-tighter mb-4">16 Tipe Kepribadian</h2>
               <p className="text-xl text-gray-500 font-medium">Klik pada tipe untuk melihat penjelasan singkat</p>
             </div>
-            <TipeMBTI />
+            <div className="gsap-tipe-kartu"><TipeMBTI /></div>
           </div>
         </section>
 
         
         <section className="px-6 md:px-16 py-24">
-          <div className="max-w-4xl mx-auto bg-[var(--utama)] text-white rounded-3xl border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-12 md:p-16 flex flex-col md:flex-row items-center gap-10">
+          <div className="gsap-cta-section max-w-4xl mx-auto bg-[var(--utama)] text-white rounded-3xl border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-12 md:p-16 flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1 space-y-6">
               <BrainCircuit className="w-14 h-14 opacity-80"/>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter">Siap Mulai?</h2>

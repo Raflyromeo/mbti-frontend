@@ -206,9 +206,9 @@ export default function Profil() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">Nama Lengkap</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 items-end">
+              <div className="flex flex-col gap-1.5">
+                <label className="font-bold text-xs uppercase tracking-wide">Nama Lengkap</label>
                 <input
                   type="text"
                   value={profil.nama}
@@ -217,18 +217,18 @@ export default function Profil() {
                   placeholder="Cth: Rafly Romeo"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">
-                  Email <span className="text-xs normal-case font-normal text-gray-500">(dari akun Google, tidak bisa diubah)</span>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-bold text-xs uppercase tracking-wide">
+                  Email <span className="normal-case font-normal text-gray-400 text-[11px]">(dari akun Google, tidak bisa diubah)</span>
                 </label>
                 <div className="w-full neobrutalism-box p-3 bg-gray-100 text-gray-500 font-bold text-sm flex items-center gap-2 cursor-not-allowed">
                   <Mail className="w-4 h-4 shrink-0" />
                   <span className="truncate">{emailSession || "—"}</span>
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">
-                  Username <span className="text-xs normal-case font-normal text-gray-500">(nama singkat tanpa spasi, contoh: raflyromeo)</span>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-bold text-xs uppercase tracking-wide">
+                  Username <span className="normal-case font-normal text-gray-400 text-[11px]">(huruf kecil, tanpa spasi)</span>
                 </label>
                 <input
                   type="text"
@@ -238,8 +238,8 @@ export default function Profil() {
                   placeholder="Cth: raflyromeo"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">Nomor Telepon</label>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-bold text-xs uppercase tracking-wide">Nomor Telepon</label>
                 <input
                   type="text"
                   value={profil.tlp}
@@ -248,15 +248,15 @@ export default function Profil() {
                   placeholder="Cth: 08123456789"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">Tanggal Lahir</label>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-bold text-xs uppercase tracking-wide">Tanggal Lahir</label>
                 <NeoDatePicker
                   value={profil.tgllahir}
                   onChange={(val) => setProfil({ ...profil, tgllahir: val })}
                 />
               </div>
-              <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">Jenis Kelamin</label>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-bold text-xs uppercase tracking-wide">Jenis Kelamin</label>
                 <NeoSelect
                   value={profil.jenis_kelamin}
                   onChange={(val) => setProfil({ ...profil, jenis_kelamin: val })}
