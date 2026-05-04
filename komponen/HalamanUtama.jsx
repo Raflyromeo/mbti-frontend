@@ -452,14 +452,17 @@ export function HalamanUtama() {
             <h3 className="font-black text-xs uppercase tracking-[0.15em] text-gray-500">Navigasi</h3>
             <ul className="space-y-3">
               {[
-                { label: "Beranda", href: "#beranda" },
-                { label: "Cara Kerja", href: "#cara-kerja" },
-                { label: "Tipe Kepribadian", href: "#tipe-mbti" },
+                { label: "Beranda",          id: "beranda"    },
+                { label: "Cara Kerja",       id: "cara-kerja" },
+                { label: "Tipe Kepribadian", id: "tipe-mbti"  },
               ].map((item) => (
-                <li key={item.label}>
-                  <a href={item.href} className="text-gray-400 hover:text-white font-semibold text-sm transition-colors hover:pl-1 block">
+                <li key={item.id}>
+                  <button
+                    onClick={() => scrollKe(item.id)}
+                    className="text-gray-400 hover:text-white font-semibold text-sm transition-all hover:pl-2 block text-left w-full"
+                  >
                     {item.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
