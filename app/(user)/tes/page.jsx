@@ -79,11 +79,18 @@ export default function TesMBTI() {
 
         if (user) {
 
+          await supabase.from("user").upsert({
+            iduser: user.id,
+            nama: user.user_metadata?.full_name || user.email?.split("@")[0] || "Pengguna",
+            username: user.email,
+            tipeuser: "user"
+          }, { onConflict: "iduser", ignoreDuplicates: true });
+
           const { data: tipeData, error: errTipe } = await supabase
             .from("tipe_kepribadian")
             .select("idtipe")
             .eq("nama_tipe", hasil.tipe_dominan)
-            .single();
+            .maybeSingle();
 
           if (errTipe || !tipeData) {
             console.error("Error mengambil idtipe:", errTipe);
