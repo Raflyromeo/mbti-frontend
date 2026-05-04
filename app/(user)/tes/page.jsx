@@ -83,7 +83,8 @@ export default function TesMBTI() {
           await supabase.from("user").upsert({
             iduser: user.id,
             nama: user.user_metadata?.full_name || user.email?.split("@")[0] || "Pengguna",
-            username: user.email,
+            email: user.email,
+            avatar_url: user.user_metadata?.avatar_url || null,
             tipeuser: "user"
           }, { onConflict: "iduser", ignoreDuplicates: true });
 

@@ -46,7 +46,7 @@ export default function Profil() {
 
       const { data, error } = await supabase
         .from("user")
-        .select("nama, username, tgllahir, jenis_kelamin, pekerjaan, tlp, alamat, avatar_url")
+        .select("nama, username, email, tgllahir, jenis_kelamin, pekerjaan, tlp, alamat, avatar_url")
         .eq("iduser", session.user.id)
         .maybeSingle();
 
@@ -61,7 +61,10 @@ export default function Profil() {
           alamat: data.alamat || "",
           avatar_url: data.avatar_url || ""
         });
+        setEmailSession(data.email || session.user.email || "");
         if (data.avatar_url) setPreviewAvatar(data.avatar_url);
+      } else {
+        setEmailSession(session.user.email || "");
       }
       setLoading(false);
     };
