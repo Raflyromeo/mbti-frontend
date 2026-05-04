@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 
 export function NeoSelect({ value, onChange, options, placeholder = "Pilih...", className = "" }) {
   const [buka, setBuka] = useState(false);
@@ -112,7 +112,7 @@ export function NeoDatePicker({ value, onChange, className = "" }) {
         <span className={value ? "text-black" : "text-gray-400"}>
           {value ? formatTampil(value) : "Pilih tanggal lahir..."}
         </span>
-        <ChevronDown className={`w-5 h-5 text-black transition-transform duration-200 ${buka ? "rotate-180" : ""}`} />
+        <Calendar className="w-5 h-5 text-black shrink-0" />
       </button>
 
       {buka && (
@@ -121,17 +121,17 @@ export function NeoDatePicker({ value, onChange, className = "" }) {
             <button
               type="button"
               onClick={bulanSebelum}
-              className="font-black px-3 py-1 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors"
+              className="p-1.5 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors rounded"
             >
-              ‹
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <span className="font-black text-sm uppercase text-black">{namaBulan[bulanTampil.bulan]} {bulanTampil.tahun}</span>
             <button
               type="button"
               onClick={bulanBerikut}
-              className="font-black px-3 py-1 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors"
+              className="p-1.5 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors rounded"
             >
-              ›
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
           <div className="grid grid-cols-7 gap-0.5 mb-1">

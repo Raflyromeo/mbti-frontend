@@ -8,7 +8,7 @@ import { Breadcrumb } from "@/komponen/Breadcrumb";
 import { NeoSelect, NeoDatePicker } from "@/komponen/NeoSelect";
 import { SkeletonProfil } from "@/komponen/Skeleton";
 import { useRouter } from "next/navigation";
-import { User, Save, Upload, X } from "lucide-react";
+import { User, Save, Upload, X, Mail } from "lucide-react";
 
 const OPSI_KELAMIN = [
   { value: "Laki-laki", label: "Laki-laki" },
@@ -222,7 +222,7 @@ export default function Profil() {
                   Email <span className="text-xs normal-case font-normal text-gray-500">(dari akun Google, tidak bisa diubah)</span>
                 </label>
                 <div className="w-full neobrutalism-box p-3 bg-gray-100 text-gray-500 font-bold text-sm flex items-center gap-2 cursor-not-allowed">
-                  <span>📧</span>
+                  <Mail className="w-4 h-4 shrink-0" />
                   <span className="truncate">{emailSession || "—"}</span>
                 </div>
               </div>
