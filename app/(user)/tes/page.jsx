@@ -68,7 +68,7 @@ export default function TesMBTI() {
     } else {
       setMemprosesAPI(true);
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+        const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/+$/, "");
         const res = await fetch(`${apiUrl}/api/diagnosa`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
