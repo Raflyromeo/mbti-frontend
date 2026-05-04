@@ -89,15 +89,23 @@ function KontenHasil() {
     };
 
     ambilDataHasil();
-
-    gsap.from(".animasi-hasil", {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "power3.out",
-    });
   }, [router, searchParams]);
+
+  useEffect(() => {
+    if (!hasil) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".animasi-hasil", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+      });
+    });
+
+    return () => ctx.revert();
+  }, [hasil]);
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center font-black uppercase text-xl">Memuat Hasil...</div>;
