@@ -212,7 +212,7 @@ export function HalamanUtama() {
         gsap.from(trigger, {
           scrollTrigger: {
             trigger,
-            start: "top 92%",
+            start: "top 98%",
             toggleActions: "play none none none",
           },
           overwrite: true,
@@ -220,24 +220,24 @@ export function HalamanUtama() {
         });
 
 
-      st(".gsap-cara-judul", { x: -50, opacity: 0, duration: 0.7 });
+      st(".gsap-cara-judul", { x: -30, opacity: 0, duration: 0.5 });
 
 
       gsap.utils.toArray(".gsap-cara-item").forEach((el, i) => {
         gsap.from(el, {
-          scrollTrigger: { trigger: el, start: "top 93%", toggleActions: "play none none none" },
-          y: 40, opacity: 0, duration: 0.6, delay: i * 0.1, ease: "power3.out", overwrite: true,
+          scrollTrigger: { trigger: el, start: "top 98%", toggleActions: "play none none none" },
+          y: 30, opacity: 0, duration: 0.5, delay: i * 0.08, ease: "power2.out", overwrite: true,
         });
       });
 
-      st(".gsap-preview", { x: 60, opacity: 0, duration: 0.8 });
+      st(".gsap-preview", { x: 40, opacity: 0, duration: 0.6 });
 
 
-      st(".gsap-tipe-judul", { y: -30, opacity: 0, duration: 0.7 });
-      st(".gsap-tipe-kartu",  { y: 35,  opacity: 0, duration: 0.7 });
+      st(".gsap-tipe-judul", { y: -20, opacity: 0, duration: 0.5 });
+      st(".gsap-tipe-kartu",  { y: 25,  opacity: 0, duration: 0.5 });
 
 
-      st(".gsap-cta-section", { scale: 0.95, opacity: 0, duration: 0.7 });
+      st(".gsap-cta-section", { scale: 0.98, opacity: 0, duration: 0.5 });
     });
 
     return () => {
