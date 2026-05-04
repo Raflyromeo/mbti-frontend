@@ -4,12 +4,30 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/utilitas/supabase";
 import { Kartu, KartuJudul } from "@/komponen/Kartu";
 import { Tombol } from "@/komponen/Tombol";
+import { NeoSelect } from "@/komponen/NeoSelect";
 import { Plus, Trash2 } from "lucide-react";
+
+const OPSI_NILAI_MBTI = [
+  { value: "E", label: "Extraversion (E)" },
+  { value: "I", label: "Introversion (I)" },
+  { value: "S", label: "Sensing (S)" },
+  { value: "N", label: "Intuition (N)" },
+  { value: "T", label: "Thinking (T)" },
+  { value: "F", label: "Feeling (F)" },
+  { value: "J", label: "Judging (J)" },
+  { value: "P", label: "Perceiving (P)" },
+];
 
 export default function KelolaPertanyaan() {
   const [soal, setSoal] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ sikap: "", opsi_a_teks: "", opsi_a_nilai: "E", opsi_b_teks: "", opsi_b_nilai: "I" });
+  const [form, setForm] = useState({
+    sikap: "",
+    opsi_a_teks: "",
+    opsi_a_nilai: "E",
+    opsi_b_teks: "",
+    opsi_b_nilai: "I"
+  });
 
   useEffect(() => {
     ambilSoal();
@@ -50,38 +68,60 @@ export default function KelolaPertanyaan() {
         <form onSubmit={tambahSoal} className="space-y-4">
           <div>
             <label className="font-bold text-sm uppercase block mb-1">Pertanyaan (Sikap)</label>
-            <input required type="text" value={form.sikap} onChange={(e) => setForm({...form, sikap: e.target.value})} className="w-full p-2 neobrutalism-box bg-white text-black" />
+            <input
+              required
+              type="text"
+              value={form.sikap}
+              onChange={(e) => setForm({ ...form, sikap: e.target.value })}
+              className="w-full p-3 neobrutalism-box bg-white text-black"
+              placeholder="Tulis pertanyaan di sini..."
+            />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="font-bold text-sm uppercase block mb-1">Opsi A</label>
-              <input required type="text" value={form.opsi_a_teks} onChange={(e) => setForm({...form, opsi_a_teks: e.target.value})} className="w-full p-2 mb-2 neobrutalism-box bg-white text-black" placeholder="Teks Opsi A" />
-              <select value={form.opsi_a_nilai} onChange={(e) => setForm({...form, opsi_a_nilai: e.target.value})} className="w-full p-2 neobrutalism-box bg-white text-black">
-                <option value="E">Extraversion (E)</option>
-                <option value="I">Introversion (I)</option>
-                <option value="S">Sensing (S)</option>
-                <option value="N">Intuition (N)</option>
-                <option value="T">Thinking (T)</option>
-                <option value="F">Feeling (F)</option>
-                <option value="J">Judging (J)</option>
-                <option value="P">Perceiving (P)</option>
-              </select>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="font-bold text-sm uppercase block">Opsi A</label>
+              <input
+                required
+                type="text"
+                value={form.opsi_a_teks}
+                onChange={(e) => setForm({ ...form, opsi_a_teks: e.target.value })}
+                className="w-full p-3 neobrutalism-box bg-white text-black"
+                placeholder="Teks Opsi A"
+              />
+              <div className="space-y-1">
+                <label className="font-bold text-xs uppercase text-[var(--muted-foreground)]">Nilai Dimensi Opsi A</label>
+                <NeoSelect
+                  value={form.opsi_a_nilai}
+                  onChange={(val) => setForm({ ...form, opsi_a_nilai: val })}
+                  options={OPSI_NILAI_MBTI}
+                  placeholder="Pilih dimensi..."
+                />
+              </div>
             </div>
-            <div>
-              <label className="font-bold text-sm uppercase block mb-1">Opsi B</label>
-              <input required type="text" value={form.opsi_b_teks} onChange={(e) => setForm({...form, opsi_b_teks: e.target.value})} className="w-full p-2 mb-2 neobrutalism-box bg-white text-black" placeholder="Teks Opsi B" />
-              <select value={form.opsi_b_nilai} onChange={(e) => setForm({...form, opsi_b_nilai: e.target.value})} className="w-full p-2 neobrutalism-box bg-white text-black">
-                <option value="E">Extraversion (E)</option>
-                <option value="I">Introversion (I)</option>
-                <option value="S">Sensing (S)</option>
-                <option value="N">Intuition (N)</option>
-                <option value="T">Thinking (T)</option>
-                <option value="F">Feeling (F)</option>
-                <option value="J">Judging (J)</option>
-                <option value="P">Perceiving (P)</option>
-              </select>
+
+            <div className="space-y-2">
+              <label className="font-bold text-sm uppercase block">Opsi B</label>
+              <input
+                required
+                type="text"
+                value={form.opsi_b_teks}
+                onChange={(e) => setForm({ ...form, opsi_b_teks: e.target.value })}
+                className="w-full p-3 neobrutalism-box bg-white text-black"
+                placeholder="Teks Opsi B"
+              />
+              <div className="space-y-1">
+                <label className="font-bold text-xs uppercase text-[var(--muted-foreground)]">Nilai Dimensi Opsi B</label>
+                <NeoSelect
+                  value={form.opsi_b_nilai}
+                  onChange={(val) => setForm({ ...form, opsi_b_nilai: val })}
+                  options={OPSI_NILAI_MBTI}
+                  placeholder="Pilih dimensi..."
+                />
+              </div>
             </div>
           </div>
+
           <Tombol varian="utama" type="submit" className="gap-2">
             <Plus className="w-4 h-4" /> Simpan Soal
           </Tombol>
@@ -90,17 +130,25 @@ export default function KelolaPertanyaan() {
 
       <div className="space-y-4">
         <h3 className="font-black text-xl uppercase tracking-tight">Daftar Soal ({soal.length})</h3>
-        {loading ? <p>Memuat...</p> : soal.map((s, idx) => (
+        {loading ? (
+          <p className="font-bold">Memuat...</p>
+        ) : soal.map((s, idx) => (
           <Kartu key={s.idsikap} className="flex justify-between items-start gap-4">
             <div className="flex-1">
               <span className="font-bold uppercase text-xs px-2 py-1 bg-[var(--aksen)] text-[var(--aksen-foreground)] mr-2 border border-black">#{idx + 1}</span>
               <span className="font-bold text-lg">{s.sikap}</span>
-              <div className="mt-2 text-sm text-[var(--muted-foreground)] flex flex-col gap-1">
-                <div><strong>A ({s.opsi_a_nilai}):</strong> {s.opsi_a_teks}</div>
-                <div><strong>B ({s.opsi_b_nilai}):</strong> {s.opsi_b_teks}</div>
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="bg-blue-50 border-2 border-black p-2 rounded">
+                  <span className="font-black text-xs uppercase text-blue-700 block mb-0.5">Opsi A — {s.opsi_a_nilai}</span>
+                  <span className="text-sm font-bold">{s.opsi_a_teks}</span>
+                </div>
+                <div className="bg-green-50 border-2 border-black p-2 rounded">
+                  <span className="font-black text-xs uppercase text-green-700 block mb-0.5">Opsi B — {s.opsi_b_nilai}</span>
+                  <span className="text-sm font-bold">{s.opsi_b_teks}</span>
+                </div>
               </div>
             </div>
-            <Tombol varian="outline" ukuran="sm" onClick={() => hapusSoal(s.idsikap)} className="bg-[var(--utama)] text-[var(--utama-foreground)]">
+            <Tombol varian="outline" ukuran="sm" onClick={() => hapusSoal(s.idsikap)} className="bg-red-400 text-white border-black hover:bg-red-500 shrink-0">
               <Trash2 className="w-4 h-4" />
             </Tombol>
           </Kartu>
