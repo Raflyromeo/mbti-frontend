@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/utilitas/supabase";
-import { LayoutDashboard, FileText, ActivitySquare, User, LogOut, X, Sun, Moon } from "lucide-react";
+import { LayoutDashboard, FileText, ActivitySquare, User, LogOut, X, Sun, Moon, BrainCircuit } from "lucide-react";
 
 export function SidebarUser({ dilipat, onTutup, profil, tema, setTema }) {
   const pathname = usePathname();
@@ -38,9 +38,12 @@ export function SidebarUser({ dilipat, onTutup, profil, tema, setTema }) {
             M
           </div>
         ) : (
-          <h1 className="font-black text-2xl uppercase tracking-tighter whitespace-nowrap text-[var(--utama)] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-            MBTI Pakar
-          </h1>
+          <Link href="/" className="flex items-center gap-2">
+            <BrainCircuit className="w-6 h-6 text-[var(--utama)] shrink-0" />
+            <h1 className="font-black text-xl uppercase tracking-tighter whitespace-nowrap text-[var(--utama)] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              MBTI Pakar
+            </h1>
+          </Link>
         )}
       </div>
 

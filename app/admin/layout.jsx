@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/utilitas/supabase";
 import Link from "next/link";
-import { LayoutDashboard, ListTodo, LogOut, Sun, Moon, Loader2, Menu, X, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { LayoutDashboard, ListTodo, LogOut, Sun, Moon, Loader2, Menu, X, PanelLeftClose, PanelLeftOpen, BrainCircuit } from "lucide-react";
 import { gunakanTema } from "@/komponen/PenyediaTema";
 
 export default function AdminLayout({ children }) {
@@ -78,9 +78,12 @@ export default function AdminLayout({ children }) {
             P
           </div>
         ) : (
-          <h1 className="font-black text-2xl uppercase tracking-tighter whitespace-nowrap text-[var(--utama)] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-            Panel Pakar
-          </h1>
+          <Link href="/" className="flex items-center gap-2">
+            <BrainCircuit className="w-6 h-6 text-[var(--utama)] shrink-0" />
+            <h1 className="font-black text-xl uppercase tracking-tighter whitespace-nowrap text-[var(--utama)] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              Panel Pakar
+            </h1>
+          </Link>
         )}
       </div>
 

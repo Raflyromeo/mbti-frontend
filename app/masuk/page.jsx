@@ -5,7 +5,7 @@ import { supabase } from "@/utilitas/supabase";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, BrainCircuit } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -57,19 +57,7 @@ export default function Masuk() {
           </Link>
         </motion.div>
 
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
-          className="flex justify-center"
-        >
-          <div className="flex items-center gap-2 font-black text-2xl uppercase tracking-tighter">
-            <BrainCircuit className="w-8 h-8 text-[var(--utama)]" /> MBTI Pakar
-          </div>
-        </motion.div>
 
-        {/* Card */}
         <motion.div
           initial={{ opacity: 0, y: 36, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

@@ -72,23 +72,11 @@ export default function MasukAdmin() {
           </Link>
         </motion.div>
 
-        {/* Icon */}
-        <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1], delay: 0.1 }}
-          className="flex justify-center"
-        >
-          <div className="p-4 bg-[var(--kedua)] border-4 border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <ShieldAlert className="w-10 h-10 text-black" />
-          </div>
-        </motion.div>
-
         {/* Card */}
         <motion.div
           initial={{ opacity: 0, y: 36, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.55, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 0.55, ease: "easeOut", delay: 0.15 }}
         >
           <Kartu className="w-full p-8 border-4 border-black bg-[var(--kedua)] text-[var(--kedua-foreground)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl">
             <KartuJudul className="text-3xl text-center">Akses Pakar</KartuJudul>
