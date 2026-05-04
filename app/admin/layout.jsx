@@ -71,23 +71,21 @@ export default function AdminLayout({ children }) {
   const Sidebar = () => (
     <div className="flex flex-col h-full bg-[var(--background)] lg:border-r-4 lg:border-[var(--border)]">
 
-      {}
-      <div className={`hidden lg:flex p-4 items-center ${dilipat ? "justify-center" : "justify-between"} h-16 border-b-4 border-[var(--border)] bg-[var(--kedua)] shrink-0`}>
+      <div className={`hidden lg:flex p-4 items-center ${dilipat ? "justify-center" : "justify-start gap-2"} h-16 border-b-4 border-[var(--border)] bg-[var(--background)] shrink-0`}>
         {dilipat ? (
-          <div className="w-10 h-10 bg-[var(--utama)] text-[var(--utama-foreground)] font-black text-xl flex items-center justify-center border-4 border-[var(--border)] rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            P
+          <div className="w-10 h-10 bg-red-500 text-white font-black text-xl flex items-center justify-center border-4 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <BrainCircuit className="w-5 h-5" />
           </div>
         ) : (
           <Link href="/" className="flex items-center gap-2">
-            <BrainCircuit className="w-6 h-6 text-[var(--utama)] shrink-0" />
-            <h1 className="font-black text-xl uppercase tracking-tighter whitespace-nowrap text-[var(--utama)] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+            <BrainCircuit className="w-6 h-6 text-red-500 shrink-0" />
+            <h1 className="font-black text-xl uppercase tracking-tighter whitespace-nowrap text-[var(--foreground)]">
               Panel Pakar
             </h1>
           </Link>
         )}
       </div>
 
-      {}
       <div className="lg:hidden flex flex-col items-center pt-2 pb-4 relative w-full shrink-0">
         <div className="w-12 h-1.5 bg-[var(--border)] rounded-full mb-4 opacity-50"></div>
         {profil && (
@@ -125,8 +123,7 @@ export default function AdminLayout({ children }) {
         })}
       </div>
 
-      {}
-      <div className="lg:hidden px-4 py-4 mt-auto border-t-4 border-[var(--border)] bg-[var(--kedua)] shrink-0">
+      <div className="lg:hidden px-4 py-4 mt-auto border-t-4 border-[var(--border)] shrink-0">
         <button 
           onClick={keluar}
           className="w-full p-3 font-black uppercase text-sm flex items-center justify-center gap-2 transition-all bg-red-500 text-white border-2 border-black rounded-xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-px hover:shadow-none"
@@ -135,7 +132,6 @@ export default function AdminLayout({ children }) {
         </button>
       </div>
 
-      {}
       <div className="hidden lg:block px-4 py-4 mt-auto border-t-4 border-[var(--border)] shrink-0">
         <button onClick={keluar}
           className={`w-full flex items-center gap-3 p-3 font-bold uppercase text-sm rounded-full border-2 border-transparent hover:bg-red-500 hover:text-white text-red-500 hover:border-black transition-all ${dilipat ? "justify-center" : ""}`}>
