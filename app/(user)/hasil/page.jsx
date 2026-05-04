@@ -51,14 +51,33 @@ function KontenHasil() {
           return;
         }
       } else {
-        const dataTersimpan = localStorage.getItem("hasilMBTI");
-        if (dataTersimpan) {
-          const parsed = JSON.parse(dataTersimpan);
-          tipeDominan = parsed.tipe_dominan;
-          persentaseData = parsed.persentase;
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          const { data, error } = await supabase
+            .from("hasil")
+            .select("skor_persentase, tipe_kepribadian(nama_tipe)")
+            .eq("iduser", session.user.id)
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+          if (data && !error) {
+            tipeDominan = data.tipe_kepribadian.nama_tipe;
+            persentaseData = data.skor_persentase;
+          } else {
+            router.push("/dasbor");
+            return;
+          }
         } else {
-          router.push("/dasbor");
-          return;
+          const dataTersimpan = localStorage.getItem("hasilMBTI");
+          if (dataTersimpan) {
+            const parsed = JSON.parse(dataTersimpan);
+            tipeDominan = parsed.tipe_dominan;
+            persentaseData = parsed.persentase;
+          } else {
+            router.push("/dasbor");
+            return;
+          }
         }
       }
 
