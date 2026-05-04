@@ -5,13 +5,14 @@ import { supabase } from "@/utilitas/supabase";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { useRouter } from "next/navigation";
-import { ShieldAlert, ArrowLeft } from "lucide-react";
+import { ShieldAlert, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function MasukAdmin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [tampilSandi, setTampilSandi] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pesanError, setPesanError] = useState("");
   const router = useRouter();
@@ -111,16 +112,25 @@ export default function MasukAdmin() {
                 className="space-y-2"
               >
                 <label htmlFor="password" className="font-black text-sm uppercase">Kata Sandi</label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  required
-                  autoComplete="current-password"
-                  className="w-full neobrutalism-box p-3 bg-white text-black focus:outline-none"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={tampilSandi ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    required
+                    autoComplete="current-password"
+                    className="w-full neobrutalism-box p-3 bg-white text-black focus:outline-none pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setTampilSandi(!tampilSandi)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-black opacity-70 hover:opacity-100 transition-opacity"
+                  >
+                    {tampilSandi ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
               </motion.div>
 
               {pesanError && (
