@@ -21,6 +21,7 @@ export default function Profil() {
   const [menyimpan, setMenyimpan] = useState(false);
   const [pesan, setPesan] = useState({ teks: "", tipe: "" });
   const [userId, setUserId] = useState(null);
+  const [emailSession, setEmailSession] = useState("");
   const [fileAvatar, setFileAvatar] = useState(null);
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const inputFileRef = useRef(null);
@@ -28,7 +29,7 @@ export default function Profil() {
   const [profil, setProfil] = useState({
     nama: "",
     username: "",
-    tgllahir: "",
+    tgllahir: null,
     jenis_kelamin: "",
     pekerjaan: "",
     tlp: "",
@@ -41,10 +42,11 @@ export default function Profil() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { router.push("/masuk"); return; }
       setUserId(session.user.id);
+      setEmailSession(session.user.email || "");
 
       const { data, error } = await supabase
         .from("user")
-        .select("nama, tgllahir, jenis_kelamin, pekerjaan, tlp, alamat, avatar_url")
+        .select("nama, username, tgllahir, jenis_kelamin, pekerjaan, tlp, alamat, avatar_url")
         .eq("iduser", session.user.id)
         .maybeSingle();
 
@@ -52,7 +54,7 @@ export default function Profil() {
         setProfil({
           nama: data.nama || "",
           username: data.username || "",
-          tgllahir: data.tgllahir || "",
+          tgllahir: data.tgllahir || null,
           jenis_kelamin: data.jenis_kelamin || "",
           pekerjaan: data.pekerjaan || "",
           tlp: data.tlp || "",
@@ -112,7 +114,12 @@ export default function Profil() {
       }
     }
 
-    const profilUpdate = { ...profil, avatar_url: finalAvatarUrl };
+    const profilUpdate = {
+      ...profil,
+      avatar_url: finalAvatarUrl,
+      tgllahir: profil.tgllahir || null,
+    };
+    delete profilUpdate.email;
 
     const { error } = await supabase
       .from("user")
@@ -208,11 +215,22 @@ export default function Profil() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="font-bold text-sm uppercase">Username <span className="text-xs normal-case font-normal text-gray-500">(nama singkat tanpa spasi)</span></label>
+                <label className="font-bold text-sm uppercase">
+                  Email <span className="text-xs normal-case font-normal text-gray-500">(dari akun Google, tidak bisa diubah)</span>
+                </label>
+                <div className="w-full neobrutalism-box p-3 bg-gray-100 text-gray-500 font-bold text-sm flex items-center gap-2 cursor-not-allowed">
+                  <span>📧</span>
+                  <span className="truncate">{emailSession || "—"}</span>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="font-bold text-sm uppercase">
+                  Username <span className="text-xs normal-case font-normal text-gray-500">(nama singkat tanpa spasi, contoh: raflyromeo)</span>
+                </label>
                 <input
                   type="text"
                   value={profil.username}
-                  onChange={(e) => setProfil({ ...profil, username: e.target.value.toLowerCase().replace(/\s+/g, "") })}
+                  onChange={(e) => setProfil({ ...profil, username: e.target.value.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9_]/g, "") })}
                   className="w-full neobrutalism-box p-3 bg-white text-black"
                   placeholder="Cth: raflyromeo"
                 />
