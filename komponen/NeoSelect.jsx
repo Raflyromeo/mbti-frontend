@@ -21,7 +21,7 @@ export function NeoSelect({ value, onChange, options, placeholder = "Pilih...", 
       <button
         type="button"
         onClick={() => setBuka(!buka)}
-        className="w-full neobrutalism-box p-3 bg-white text-black flex justify-between items-center font-bold cursor-pointer"
+        className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black flex justify-between items-center font-bold cursor-pointer"
       >
         <span className={selected ? "text-black" : "text-gray-400"}>
           {selected ? selected.label : placeholder}
@@ -107,7 +107,7 @@ export function NeoDatePicker({ value, onChange, className = "" }) {
       <button
         type="button"
         onClick={() => setBuka(!buka)}
-        className="w-full neobrutalism-box p-3 bg-white text-black flex justify-between items-center font-bold cursor-pointer"
+        className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black flex justify-between items-center font-bold cursor-pointer"
       >
         <span className={value ? "text-black" : "text-gray-400"}>
           {value ? formatTampil(value) : "Pilih tanggal lahir..."}

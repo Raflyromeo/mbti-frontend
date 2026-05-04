@@ -18,40 +18,51 @@ export default function AdminLayout({ children }) {
   const { tema, setTema } = gunakanTema();
 
   useEffect(() => {
-    let langganan;
+    let channel = null;
+    let unmounted = false;
 
     const periksaAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { router.push("/masuk-admin"); return; }
-      const { data, error } = await supabase.from("user").select("nama, tipeuser, avatar_url").eq("iduser", session.user.id).maybeSingle();
+      if (!session || unmounted) { router.push("/masuk-admin"); return; }
 
-      if (error || data?.tipeuser !== "admin") { 
-        router.push("/tes"); 
-      } else { 
-        setProfil({ nama: data.nama || "Admin", email: session.user.email, avatar_url: data.avatar_url || "" }); 
-        setLoading(false); 
+      const { data, error } = await supabase
+        .from("user")
+        .select("nama, tipeuser, avatar_url")
+        .eq("iduser", session.user.id)
+        .maybeSingle();
+
+      if (unmounted) return;
+
+      if (error || data?.tipeuser !== "admin") {
+        router.push("/tes");
+      } else {
+        setProfil({ nama: data.nama || "Admin", email: session.user.email, avatar_url: data.avatar_url || "" });
+        setLoading(false);
+
+        channel = supabase.channel(`profil-admin-${session.user.id}`);
+        channel
+          .on(
+            "postgres_changes",
+            { event: "UPDATE", schema: "public", table: "user", filter: `iduser=eq.${session.user.id}` },
+            (payload) => {
+              if (!unmounted) {
+                setProfil((prev) => ({
+                  ...prev,
+                  nama: payload.new.nama || prev.nama,
+                  avatar_url: payload.new.avatar_url || "",
+                }));
+              }
+            }
+          )
+          .subscribe();
       }
-
-      langganan = supabase
-        .channel(`profil-realtime-admin-${Date.now()}`)
-        .on(
-          'postgres_changes',
-          { event: 'UPDATE', schema: 'public', table: 'user', filter: `iduser=eq.${session.user.id}` },
-          (payload) => {
-            setProfil(prev => ({
-              ...prev,
-              nama: payload.new.nama || prev.nama,
-              avatar_url: payload.new.avatar_url || ""
-            }));
-          }
-        )
-        .subscribe();
     };
 
     periksaAdmin();
 
     return () => {
-      if (langganan) supabase.removeChannel(langganan);
+      unmounted = true;
+      if (channel) supabase.removeChannel(channel);
     };
   }, [router]);
 

@@ -213,7 +213,7 @@ export default function Profil() {
                   type="text"
                   value={profil.nama}
                   onChange={(e) => setProfil({ ...profil, nama: e.target.value })}
-                  className="w-full neobrutalism-box p-3 bg-white text-black"
+                  className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black"
                   placeholder="Cth: Rafly Romeo"
                 />
               </div>
@@ -221,7 +221,7 @@ export default function Profil() {
                 <label className="font-bold text-xs uppercase tracking-wide">
                   Email <span className="normal-case font-normal text-gray-400 text-[11px]">(dari akun Google, tidak bisa diubah)</span>
                 </label>
-                <div className="w-full neobrutalism-box p-3 bg-gray-100 text-gray-500 font-bold text-sm flex items-center gap-2 cursor-not-allowed">
+                <div className="w-full neobrutalism-box p-3 min-h-[48px] bg-gray-100 text-gray-500 font-bold text-sm flex items-center gap-2 cursor-not-allowed">
                   <Mail className="w-4 h-4 shrink-0" />
                   <span className="truncate">{emailSession || "—"}</span>
                 </div>
@@ -234,7 +234,7 @@ export default function Profil() {
                   type="text"
                   value={profil.username}
                   onChange={(e) => setProfil({ ...profil, username: e.target.value.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9_]/g, "") })}
-                  className="w-full neobrutalism-box p-3 bg-white text-black"
+                  className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black"
                   placeholder="Cth: raflyromeo"
                 />
               </div>
@@ -244,7 +244,7 @@ export default function Profil() {
                   type="text"
                   value={profil.tlp}
                   onChange={(e) => setProfil({ ...profil, tlp: e.target.value })}
-                  className="w-full neobrutalism-box p-3 bg-white text-black"
+                  className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black"
                   placeholder="Cth: 08123456789"
                 />
               </div>

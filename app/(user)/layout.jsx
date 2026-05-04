@@ -18,45 +18,45 @@ export default function UserLayout({ children }) {
   const { tema, setTema } = gunakanTema();
 
   useEffect(() => {
-    let langganan;
+    let channel = null;
+    let unmounted = false;
 
     const ambilProfil = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        router.push("/masuk");
-        return;
-      }
-      
-      const { data, error } = await supabase
+      if (!session || unmounted) { router.push("/masuk"); return; }
+
+      const { data } = await supabase
         .from("user")
         .select("nama, tipeuser, username, avatar_url")
         .eq("iduser", session.user.id)
         .maybeSingle();
-      
-      if (data?.tipeuser === "admin") {
-        router.push("/admin");
-        return;
-      }
+
+      if (unmounted) return;
+
+      if (data?.tipeuser === "admin") { router.push("/admin"); return; }
 
       setProfil({
         nama: data?.nama || session.user.email.split("@")[0],
         peran: "User",
         email: session.user.email,
-        avatar_url: data?.avatar_url || ""
+        avatar_url: data?.avatar_url || "",
       });
       setLoading(false);
 
-      langganan = supabase
-        .channel(`profil-realtime-${Date.now()}`)
+      // Buat channel baru, .on() HARUS sebelum .subscribe()
+      channel = supabase.channel(`profil-user-${session.user.id}`);
+      channel
         .on(
-          'postgres_changes',
-          { event: 'UPDATE', schema: 'public', table: 'user', filter: `iduser=eq.${session.user.id}` },
+          "postgres_changes",
+          { event: "UPDATE", schema: "public", table: "user", filter: `iduser=eq.${session.user.id}` },
           (payload) => {
-            setProfil(prev => ({
-              ...prev,
-              nama: payload.new.nama || prev.nama,
-              avatar_url: payload.new.avatar_url || ""
-            }));
+            if (!unmounted) {
+              setProfil((prev) => ({
+                ...prev,
+                nama: payload.new.nama || prev.nama,
+                avatar_url: payload.new.avatar_url || "",
+              }));
+            }
           }
         )
         .subscribe();
@@ -65,9 +65,8 @@ export default function UserLayout({ children }) {
     ambilProfil();
 
     return () => {
-      if (langganan) {
-        supabase.removeChannel(langganan);
-      }
+      unmounted = true;
+      if (channel) supabase.removeChannel(channel);
     };
   }, [router]);
 
