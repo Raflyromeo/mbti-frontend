@@ -334,8 +334,9 @@ export function HalamanUtama() {
               Temukan 1 dari 16 tipe kepribadian MBTI-mu melalui 32 pertanyaan yang dirancang secara ilmiah.
             </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-none">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full sm:w-auto px-4">
               <motion.div
+                className="w-full sm:w-auto flex justify-center"
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, ease: "easeOut", delay: 0.58 }}
@@ -347,6 +348,7 @@ export function HalamanUtama() {
                 </Link>
               </motion.div>
               <motion.div
+                className="w-full sm:w-auto flex justify-center"
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, ease: "easeOut", delay: 0.72 }}
