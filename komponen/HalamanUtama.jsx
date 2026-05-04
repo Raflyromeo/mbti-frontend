@@ -334,7 +334,7 @@ export function HalamanUtama() {
               Temukan 1 dari 16 tipe kepribadian MBTI-mu melalui 32 pertanyaan yang dirancang secara ilmiah.
             </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-none">
               <motion.div
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -342,8 +342,8 @@ export function HalamanUtama() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <Link href="/masuk" className="inline-flex items-center justify-center gap-3 bg-[var(--utama)] text-white font-black px-10 py-5 rounded-2xl text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
-                  <Play className="w-6 h-6 fill-current" /> Ikuti Tes Gratis
+                <Link href="/masuk" className="inline-flex items-center justify-center gap-3 bg-[var(--utama)] text-white font-black px-6 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all w-full sm:w-auto">
+                  <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current" /> Ikuti Tes Gratis
                 </Link>
               </motion.div>
               <motion.div
@@ -355,9 +355,9 @@ export function HalamanUtama() {
               >
                 <button
                   onClick={() => scrollKe("cara-kerja")}
-                  className="inline-flex items-center justify-center gap-3 border-4 border-black font-black px-10 py-5 rounded-2xl text-xl bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all"
+                  className="inline-flex items-center justify-center gap-3 border-4 border-black font-black px-6 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl bg-[var(--background)] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all w-full sm:w-auto"
                 >
-                  Pelajari Lebih <ArrowRight className="w-6 h-6" />
+                  Pelajari Lebih <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </motion.div>
             </div>
