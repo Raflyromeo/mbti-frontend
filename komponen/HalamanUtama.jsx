@@ -205,41 +205,52 @@ export function HalamanUtama() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      gsap.from(".gsap-hero-badge", { y: -20, opacity: 0, duration: 0.6, ease: "power3.out", delay: 0.1 });
-      gsap.from(".gsap-hero-title", { y: 40, opacity: 0, duration: 0.8, ease: "power3.out", delay: 0.25 });
-      gsap.from(".gsap-hero-sub", { y: 30, opacity: 0, duration: 0.7, ease: "power3.out", delay: 0.45 });
-      gsap.from(".gsap-hero-cta", { y: 20, opacity: 0, duration: 0.6, ease: "power3.out", delay: 0.6, stagger: 0.15 });
+      // ── Hero: langsung animasi saat mount ──
+      const tl = gsap.timeline({ defaults: { ease: "power3.out", overwrite: true } });
+      tl.from(".gsap-hero-badge", { y: -24, opacity: 0, duration: 0.55 }, 0.1)
+        .from(".gsap-hero-title",  { y: 44,  opacity: 0, duration: 0.75 }, 0.25)
+        .from(".gsap-hero-sub",   { y: 30,  opacity: 0, duration: 0.65 }, 0.42)
+        .from(".gsap-hero-cta",   { y: 22,  opacity: 0, duration: 0.55, stagger: 0.14 }, 0.58);
 
-      gsap.from(".gsap-cara-judul", {
-        scrollTrigger: { trigger: ".gsap-cara-judul", start: "top 85%", toggleActions: "play none none reverse" },
-        x: -50, opacity: 0, duration: 0.7, ease: "power3.out"
-      });
-      gsap.from(".gsap-cara-item", {
-        scrollTrigger: { trigger: ".gsap-cara-item", start: "top 85%", toggleActions: "play none none reverse" },
-        y: 40, opacity: 0, duration: 0.6, ease: "power3.out", stagger: 0.15
-      });
-      gsap.from(".gsap-preview", {
-        scrollTrigger: { trigger: ".gsap-preview", start: "top 85%", toggleActions: "play none none reverse" },
-        x: 60, opacity: 0, duration: 0.8, ease: "power3.out"
+      // ── Helper: buat ScrollTrigger dengan default yang aman ──
+      const st = (trigger, vars) =>
+        gsap.from(trigger, {
+          scrollTrigger: {
+            trigger,
+            start: "top 92%",
+            toggleActions: "play none none none", // TIDAK reverse — elemen tetap kelihatan
+          },
+          overwrite: true,
+          ...vars,
+        });
+
+      // ── Section Cara Kerja ──
+      st(".gsap-cara-judul", { x: -50, opacity: 0, duration: 0.7 });
+
+      // Setiap item cara-kerja punya ScrollTrigger sendiri (bukan 1 trigger untuk semua)
+      gsap.utils.toArray(".gsap-cara-item").forEach((el, i) => {
+        gsap.from(el, {
+          scrollTrigger: { trigger: el, start: "top 93%", toggleActions: "play none none none" },
+          y: 40, opacity: 0, duration: 0.6, delay: i * 0.1, ease: "power3.out", overwrite: true,
+        });
       });
 
-      gsap.from(".gsap-tipe-judul", {
-        scrollTrigger: { trigger: ".gsap-tipe-judul", start: "top 85%", toggleActions: "play none none reverse" },
-        y: -30, opacity: 0, duration: 0.7, ease: "power3.out"
-      });
-      gsap.from(".gsap-tipe-kartu", {
-        scrollTrigger: { trigger: ".gsap-tipe-kartu", start: "top 85%", toggleActions: "play none none reverse" },
-        y: 30, opacity: 0, duration: 0.7, ease: "power3.out"
-      });
+      st(".gsap-preview", { x: 60, opacity: 0, duration: 0.8 });
 
-      gsap.from(".gsap-cta-section", {
-        scrollTrigger: { trigger: ".gsap-cta-section", start: "top 85%", toggleActions: "play none none reverse" },
-        scale: 0.95, opacity: 0, duration: 0.7, ease: "power3.out"
-      });
+      // ── Section Tipe MBTI ──
+      st(".gsap-tipe-judul", { y: -30, opacity: 0, duration: 0.7 });
+      st(".gsap-tipe-kartu",  { y: 35,  opacity: 0, duration: 0.7 });
+
+      // ── CTA Section ──
+      st(".gsap-cta-section", { scale: 0.95, opacity: 0, duration: 0.7 });
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
   }, []);
+
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--background)] text-[var(--foreground)]">
