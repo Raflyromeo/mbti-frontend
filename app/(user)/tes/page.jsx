@@ -6,6 +6,7 @@ import { supabase } from "@/utilitas/supabase";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul } from "@/komponen/Kartu";
 import { Breadcrumb } from "@/komponen/Breadcrumb";
+import { SkeletonTes } from "@/komponen/Skeleton";
 import { gsap } from "gsap";
 import { Loader2, User } from "lucide-react";
 import Link from "next/link";
@@ -145,6 +146,16 @@ export default function TesMBTI() {
             <div className="bg-[var(--utama)] h-full animate-pulse w-full"></div>
           </div>
         </Kartu>
+      </main>
+    );
+  }
+
+  if (sedangMemuatSoal) {
+    return (
+      <main className="min-h-screen p-6 md:p-12">
+        <div className="w-full max-w-2xl mx-auto">
+          <SkeletonTes />
+        </div>
       </main>
     );
   }

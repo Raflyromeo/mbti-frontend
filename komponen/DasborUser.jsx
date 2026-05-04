@@ -5,6 +5,7 @@ import { supabase } from "@/utilitas/supabase";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { Breadcrumb } from "@/komponen/Breadcrumb";
+import { SkeletonDasbor } from "@/komponen/Skeleton";
 import Link from "next/link";
 import { Play, ArrowRight, BrainCircuit, History } from "lucide-react";
 
@@ -45,6 +46,13 @@ export function DasborUser() {
     };
     ambilData();
   }, []);
+
+  if (loading) return (
+    <div className="p-6 md:p-12">
+      <div className="h-6 w-40 bg-gray-200 animate-pulse rounded mb-6" />
+      <SkeletonDasbor />
+    </div>
+  );
 
   return (
     <div className="flex flex-col min-h-full relative overflow-x-hidden">

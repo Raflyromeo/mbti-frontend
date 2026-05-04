@@ -193,7 +193,7 @@ export default function AdminLayout({ children }) {
                     {tema === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
                     Ganti Tema
                   </span>
-                  <span className="text-xs border-2 border-[var(--border)] px-2 rounded-full uppercase">{tema}</span>
+                  <span className="text-xs border-2 border-[var(--border)] px-2 rounded-full uppercase">{tema === "light" ? "Terang" : "Gelap"}</span>
                 </button>
                 <div className="h-px bg-[var(--border)] my-1" />
                 <button onClick={keluar}

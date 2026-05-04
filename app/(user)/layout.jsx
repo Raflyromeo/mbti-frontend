@@ -134,7 +134,7 @@ export default function UserLayout({ children }) {
                     {tema === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
                     Ganti Tema
                   </span>
-                  <span className="text-xs border-2 border-[var(--border)] px-2 rounded-full uppercase">{tema}</span>
+                  <span className="text-xs border-2 border-[var(--border)] px-2 rounded-full uppercase">{tema === "light" ? "Terang" : "Gelap"}</span>
                 </button>
                 <div className="h-px bg-[var(--border)] my-2" />
                 <button onClick={keluar} className="flex items-center gap-3 p-3 hover:bg-red-50 dark:hover:bg-red-950 rounded-lg font-bold transition-colors w-full text-left text-red-500">

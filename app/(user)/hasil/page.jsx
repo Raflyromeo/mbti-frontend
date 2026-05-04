@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { Breadcrumb } from "@/komponen/Breadcrumb";
+import { SkeletonHasil } from "@/komponen/Skeleton";
 import { gsap } from "gsap";
 import { Download, RotateCcw, BookOpen, Lightbulb } from "lucide-react";
 import { supabase } from "@/utilitas/supabase";
@@ -108,7 +109,11 @@ function KontenHasil() {
   }, [hasil]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center font-black uppercase text-xl">Memuat Hasil...</div>;
+    return (
+      <main className="min-h-screen bg-[var(--muted)] p-6 md:p-12">
+        <SkeletonHasil />
+      </main>
+    );
   }
 
   if (!hasil) return null;

@@ -6,6 +6,7 @@ import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { Breadcrumb } from "@/komponen/Breadcrumb";
 import { NeoSelect, NeoDatePicker } from "@/komponen/NeoSelect";
+import { SkeletonProfil } from "@/komponen/Skeleton";
 import { useRouter } from "next/navigation";
 import { User, Save, Upload, X } from "lucide-react";
 
@@ -26,6 +27,7 @@ export default function Profil() {
 
   const [profil, setProfil] = useState({
     nama: "",
+    username: "",
     tgllahir: "",
     jenis_kelamin: "",
     pekerjaan: "",
@@ -49,6 +51,7 @@ export default function Profil() {
       if (!error && data) {
         setProfil({
           nama: data.nama || "",
+          username: data.username || "",
           tgllahir: data.tgllahir || "",
           jenis_kelamin: data.jenis_kelamin || "",
           pekerjaan: data.pekerjaan || "",
@@ -86,21 +89,27 @@ export default function Profil() {
     let finalAvatarUrl = profil.avatar_url;
 
     if (fileAvatar) {
-      const ekstensi = fileAvatar.name.split(".").pop();
-      const namaFile = `avatar-${userId}-${Date.now()}.${ekstensi}`;
+      try {
+        const ekstensi = fileAvatar.name.split(".").pop();
+        const namaFile = `avatar-${userId}-${Date.now()}.${ekstensi}`;
 
-      const { error: errUpload } = await supabase.storage
-        .from("avatars")
-        .upload(namaFile, fileAvatar, { upsert: true, contentType: fileAvatar.type });
+        const { error: errUpload } = await supabase.storage
+          .from("avatars")
+          .upload(namaFile, fileAvatar, { upsert: true, contentType: fileAvatar.type });
 
-      if (errUpload) {
-        setPesan({ teks: "Gagal mengunggah foto: " + errUpload.message, tipe: "error" });
+        if (errUpload) {
+          setPesan({ teks: `Gagal upload foto (${errUpload.message}). Cek bucket 'avatars' di Supabase Storage.`, tipe: "error" });
+          setMenyimpan(false);
+          return;
+        }
+
+        const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(namaFile);
+        finalAvatarUrl = urlData.publicUrl;
+      } catch (err) {
+        setPesan({ teks: "Gagal upload foto: " + err.message, tipe: "error" });
         setMenyimpan(false);
         return;
       }
-
-      const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(namaFile);
-      finalAvatarUrl = urlData.publicUrl;
     }
 
     const profilUpdate = { ...profil, avatar_url: finalAvatarUrl };
@@ -121,7 +130,16 @@ export default function Profil() {
     setMenyimpan(false);
   };
 
-  if (loading) return <main className="min-h-screen bg-[var(--background)]"></main>;
+  if (loading) return (
+    <main className="min-h-screen bg-[var(--muted)] p-6 md:p-12">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="h-6 w-40 bg-gray-200 animate-pulse rounded" />
+        <Kartu className="border-4 border-black">
+          <SkeletonProfil />
+        </Kartu>
+      </div>
+    </main>
+  );
 
   return (
     <main className="min-h-screen bg-[var(--muted)] p-6 md:p-12 relative">
@@ -186,7 +204,17 @@ export default function Profil() {
                   value={profil.nama}
                   onChange={(e) => setProfil({ ...profil, nama: e.target.value })}
                   className="w-full neobrutalism-box p-3 bg-white text-black"
-                  placeholder="Cth: Budi Utami"
+                  placeholder="Cth: Rafly Romeo"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="font-bold text-sm uppercase">Username <span className="text-xs normal-case font-normal text-gray-500">(nama singkat tanpa spasi)</span></label>
+                <input
+                  type="text"
+                  value={profil.username}
+                  onChange={(e) => setProfil({ ...profil, username: e.target.value.toLowerCase().replace(/\s+/g, "") })}
+                  className="w-full neobrutalism-box p-3 bg-white text-black"
+                  placeholder="Cth: raflyromeo"
                 />
               </div>
               <div className="space-y-2">
@@ -232,7 +260,7 @@ export default function Profil() {
                   value={profil.alamat}
                   onChange={(e) => setProfil({ ...profil, alamat: e.target.value })}
                   className="w-full neobrutalism-box p-3 bg-white text-black"
-                  placeholder="Cth: Jl. Margonda Raya..."
+                  placeholder="Cth: Jl. Raya Pekayon"
                 />
               </div>
             </div>
