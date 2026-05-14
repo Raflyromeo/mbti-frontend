@@ -202,16 +202,34 @@ function KontenHasil() {
               <BarDimensi label1="T" val1={hasil.persentase.T} label2="F" val2={hasil.persentase.F} warna="var(--utama)" />
               <BarDimensi label1="J" val1={hasil.persentase.J} label2="P" val2={hasil.persentase.P} warna="var(--kedua)" />
             </div>
+
+            <div className="mt-8 pt-6 border-t-4 border-[var(--border)]">
+              <h4 className="font-black text-lg mb-4 uppercase">Kamus Dimensi MBTI</h4>
+              <ul className="space-y-4 text-sm font-medium">
+                <li>
+                  <strong className="font-black text-base uppercase">E (Extrovert) vs I (Introvert):</strong> Fokus perhatian dan energi. Extrovert mendapat energi dari interaksi sosial dan dunia luar, sedangkan Introvert mengisi ulang energi melalui waktu sendiri dan refleksi internal.
+                </li>
+                <li>
+                  <strong className="font-black text-base uppercase">S (Sensing) vs N (Intuition):</strong> Cara menerima informasi. Sensing berfokus pada fakta, kelima indera, dan realitas masa kini. Intuition berfokus pada pola, makna tersembunyi, dan kemungkinan masa depan.
+                </li>
+                <li>
+                  <strong className="font-black text-base uppercase">T (Thinking) vs F (Feeling):</strong> Cara mengambil keputusan. Thinking mengutamakan logika murni, objektivitas, dan analisis. Feeling mengutamakan nilai-nilai personal, harmoni, dan empati terhadap perasaan orang lain.
+                </li>
+                <li>
+                  <strong className="font-black text-base uppercase">J (Judging) vs P (Perceiving):</strong> Gaya hidup dan cara bertindak. Judging lebih menyukai rencana yang terstruktur, keteraturan, dan kejelasan. Perceiving lebih menyukai spontanitas, fleksibilitas, dan membiarkan opsi tetap terbuka.
+                </li>
+              </ul>
+            </div>
           </Kartu>
 
-          <Kartu className="flex flex-col justify-center gap-6 h-full rounded-2xl border-4 border-[var(--border)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-[var(--kedua)] text-[var(--kedua-foreground)]">
+          <Kartu className="flex flex-col justify-start gap-6 h-full rounded-2xl border-4 border-[var(--border)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-[var(--kedua)] text-[var(--kedua-foreground)]">
             <KartuJudul className="flex items-center gap-3"><Lightbulb className="w-8 h-8" /> Saran Pengembangan</KartuJudul>
-            <KartuDeskripsi className="text-lg font-bold opacity-90">
+            <KartuDeskripsi className="text-lg font-bold opacity-100 text-inherit">
               {hasil.saran}
             </KartuDeskripsi>
             <div className="h-1 w-full bg-[var(--kedua-foreground)] opacity-20 my-2"></div>
             <KartuJudul>Aksi Lanjutan</KartuJudul>
-            <KartuDeskripsi>
+            <KartuDeskripsi className="opacity-90 font-medium text-inherit">
               Unduh hasil tes Anda sebagai file PDF atau ulangi kuesioner jika Anda merasa ada yang kurang tepat.
             </KartuDeskripsi>
 
