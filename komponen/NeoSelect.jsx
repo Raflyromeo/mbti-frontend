@@ -48,6 +48,7 @@ export function NeoSelect({ value, onChange, options, placeholder = "Pilih...", 
 
 export function NeoDatePicker({ value, onChange, className = "" }) {
   const [buka, setBuka] = useState(false);
+  const [mode, setMode] = useState("hari");
   const ref = useRef(null);
 
   const today = new Date();
@@ -117,49 +118,106 @@ export function NeoDatePicker({ value, onChange, className = "" }) {
 
       {buka && (
         <div className="absolute top-full left-0 w-full mt-2 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-50 p-3">
-          <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2">
+          <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2 gap-2">
             <button
               type="button"
               onClick={bulanSebelum}
-              className="p-1.5 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors rounded"
+              className="p-1.5 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors rounded shrink-0"
+              disabled={mode !== "hari"}
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className={`w-4 h-4 ${mode !== "hari" ? "opacity-30" : ""}`} />
             </button>
-            <span className="font-black text-sm uppercase text-black">{namaBulan[bulanTampil.bulan]} {bulanTampil.tahun}</span>
+            
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setMode(mode === "bulan" ? "hari" : "bulan")}
+                className="font-black text-sm uppercase text-black hover:bg-yellow-100 px-2 py-1 rounded transition-colors"
+              >
+                {namaBulan[bulanTampil.bulan]}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode(mode === "tahun" ? "hari" : "tahun")}
+                className="font-black text-sm uppercase text-black hover:bg-yellow-100 px-2 py-1 rounded transition-colors"
+              >
+                {bulanTampil.tahun}
+              </button>
+            </div>
+
             <button
               type="button"
               onClick={bulanBerikut}
-              className="p-1.5 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors rounded"
+              className="p-1.5 border-2 border-black bg-white text-black hover:bg-yellow-300 transition-colors rounded shrink-0"
+              disabled={mode !== "hari"}
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className={`w-4 h-4 ${mode !== "hari" ? "opacity-30" : ""}`} />
             </button>
           </div>
-          <div className="grid grid-cols-7 gap-0.5 mb-1">
-            {["Min","Sen","Sel","Rab","Kam","Jum","Sab"].map(h => (
-              <div key={h} className="text-center text-[10px] font-black uppercase text-gray-500 pb-1">{h}</div>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-0.5">
-            {Array.from({ length: hariPertama }).map((_, i) => <div key={`e-${i}`} />)}
-            {Array.from({ length: jumlahHari }).map((_, i) => {
-              const hari = i + 1;
-              const aktif = selectedDay === hari && selectedMonth === bulanTampil.bulan && selectedYear === bulanTampil.tahun;
-              return (
+
+          {mode === "hari" && (
+            <>
+              <div className="grid grid-cols-7 gap-0.5 mb-1">
+                {["Min","Sen","Sel","Rab","Kam","Jum","Sab"].map(h => (
+                  <div key={h} className="text-center text-[10px] font-black uppercase text-gray-500 pb-1">{h}</div>
+                ))}
+              </div>
+              <div className="grid grid-cols-7 gap-0.5">
+                {Array.from({ length: hariPertama }).map((_, i) => <div key={`e-${i}`} />)}
+                {Array.from({ length: jumlahHari }).map((_, i) => {
+                  const hari = i + 1;
+                  const aktif = selectedDay === hari && selectedMonth === bulanTampil.bulan && selectedYear === bulanTampil.tahun;
+                  return (
+                    <button
+                      key={hari}
+                      type="button"
+                      onClick={() => pilihTanggal(hari)}
+                      className={`text-center text-xs font-bold py-1.5 border-2 transition-colors text-black
+                        ${aktif
+                          ? "bg-yellow-300 border-black"
+                          : "bg-white border-transparent hover:border-black hover:bg-yellow-100"
+                        }`}
+                    >
+                      {hari}
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          )}
+
+          {mode === "bulan" && (
+            <div className="grid grid-cols-3 gap-2 py-2">
+              {namaBulan.map((bln, i) => (
                 <button
-                  key={hari}
+                  key={i}
                   type="button"
-                  onClick={() => pilihTanggal(hari)}
-                  className={`text-center text-xs font-bold py-1.5 border-2 transition-colors text-black
-                    ${aktif
-                      ? "bg-yellow-300 border-black"
-                      : "bg-white border-transparent hover:border-black hover:bg-yellow-100"
-                    }`}
+                  onClick={() => { setBulanTampil({ ...bulanTampil, bulan: i }); setMode("hari"); }}
+                  className={`text-xs font-bold py-2 border-2 text-black transition-colors ${bulanTampil.bulan === i ? "bg-yellow-300 border-black" : "bg-white border-transparent hover:border-black hover:bg-yellow-100"}`}
                 >
-                  {hari}
+                  {bln.substring(0, 3)}
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
+
+          {mode === "tahun" && (
+            <div className="grid grid-cols-4 gap-2 py-2 h-48 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin" }}>
+              {Array.from({ length: 100 }).map((_, i) => {
+                const y = today.getFullYear() - i;
+                return (
+                  <button
+                    key={y}
+                    type="button"
+                    onClick={() => { setBulanTampil({ ...bulanTampil, tahun: y }); setMode("hari"); }}
+                    className={`text-xs font-bold py-2 border-2 text-black transition-colors ${bulanTampil.tahun === y ? "bg-yellow-300 border-black" : "bg-white border-transparent hover:border-black hover:bg-yellow-100"}`}
+                  >
+                    {y}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>
