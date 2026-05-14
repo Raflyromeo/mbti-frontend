@@ -214,7 +214,7 @@ export default function Profil() {
                   value={profil.nama}
                   onChange={(e) => setProfil({ ...profil, nama: e.target.value })}
                   className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black"
-                  placeholder="Cth: Rafly Romeo"
+                  placeholder="Cth: Rafly Ganteng"
                 />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -235,7 +235,7 @@ export default function Profil() {
                   value={profil.username}
                   onChange={(e) => setProfil({ ...profil, username: e.target.value.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9_]/g, "") })}
                   className="w-full neobrutalism-box p-3 min-h-[48px] bg-white text-black"
-                  placeholder="Cth: raflyromeo"
+                  placeholder="Cth: raflygantengbanget"
                 />
               </div>
               <div className="flex flex-col gap-1.5">
