@@ -119,7 +119,7 @@ export function ProfilUser() {
                 type="text"
                 value={avatarUrl}
                 onChange={(e) => setAvatarUrl(e.target.value)}
-                placeholder="https:
+                placeholder="https://..."
                 className="w-full p-3 border-4 border-black font-bold focus:outline-none focus:ring-4 focus:ring-[var(--utama)] rounded-lg"
               />
             </div>
