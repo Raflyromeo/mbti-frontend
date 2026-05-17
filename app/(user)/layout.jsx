@@ -25,7 +25,7 @@ export default function UserLayout({ children }) {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (typeof window !== "undefined" && window.location.hash.includes("access_token")) {
-        window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+        router.replace(window.location.pathname + window.location.search, { scroll: false });
       }
 
       if (unmounted) return;
