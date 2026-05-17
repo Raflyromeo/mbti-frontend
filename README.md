@@ -61,6 +61,17 @@ NEXT_PUBLIC_SUPABASE_URL=https://<your-project>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
 ```
 
+### Konfigurasi OAuth (Supabase Dashboard)
+
+Di **Authentication → URL Configuration**, atur:
+
+| Setting | Nilai |
+|---|---|
+| Site URL | `https://mbti-frontend.vercel.app` (atau domain produksi Anda) |
+| Redirect URLs | `https://mbti-frontend.vercel.app/masuk`, `http://localhost:3000/masuk` |
+
+Login Google mengarahkan callback ke `/masuk` agar token OAuth dibersihkan dari URL sebelum pengguna masuk ke dasbor.
+
 ### Menjalankan Secara Lokal
 
 **Terminal:**
