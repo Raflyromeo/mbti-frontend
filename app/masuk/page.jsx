@@ -1,42 +1,69 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/utilitas/supabase";
+import { adaHashOAuth, bersihkanHashOAuth } from "@/utilitas/auth";
 import { Tombol } from "@/komponen/Tombol";
 import { Kartu, KartuJudul, KartuDeskripsi } from "@/komponen/Kartu";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function Masuk() {
   const router = useRouter();
+  const [memprosesOAuth, setMemprosesOAuth] = useState(false);
 
   useEffect(() => {
-    const periksaSesi = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) arahkanPengguna(session.user.id);
+    let unmounted = false;
+
+    const arahkanKeDasbor = () => {
+      if (unmounted) return;
+      bersihkanHashOAuth();
+      router.replace("/dasbor");
     };
-    periksaSesi();
+
+    const tanganiCallback = async () => {
+      const dariOAuth = adaHashOAuth();
+      if (dariOAuth) setMemprosesOAuth(true);
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (unmounted) return;
+
+      if (session) {
+        arahkanKeDasbor();
+        return;
+      }
+
+      if (dariOAuth) setMemprosesOAuth(false);
+    };
+
+    tanganiCallback();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session) arahkanPengguna(session.user.id);
+      if (event === "SIGNED_IN" && session) arahkanKeDasbor();
     });
 
-    return () => { authListener.subscription.unsubscribe(); };
-  }, []);
-
-  const arahkanPengguna = async (userId) => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    router.push("/dasbor");
-  };
+    return () => {
+      unmounted = true;
+      authListener.subscription.unsubscribe();
+    };
+  }, [router]);
 
   const tanganiMasukGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/dasbor` }
+      options: { redirectTo: `${window.location.origin}/masuk` }
     });
   };
+
+  if (memprosesOAuth) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-[var(--muted)]">
+        <Loader2 className="w-10 h-10 animate-spin text-[var(--foreground)]" />
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen flex items-center justify-center p-6 bg-[var(--muted)] relative overflow-hidden">
@@ -45,8 +72,6 @@ export default function Masuk() {
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[var(--aksen)] opacity-15 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="max-w-md w-full relative z-10 space-y-4">
-
-
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           animate={{ opacity: 1, x: 0 }}
@@ -56,7 +81,6 @@ export default function Masuk() {
             <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
           </Link>
         </motion.div>
-
 
         <motion.div
           initial={{ opacity: 0, y: 36, scale: 0.97 }}
