@@ -23,6 +23,11 @@ export default function UserLayout({ children }) {
 
     const ambilProfil = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      
+      if (typeof window !== "undefined" && window.location.hash.includes("access_token")) {
+        window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+      }
+
       if (unmounted) return;
       if (!session) { router.push("/masuk"); return; }
 
