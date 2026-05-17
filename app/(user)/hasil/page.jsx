@@ -14,6 +14,7 @@ import { useReactToPrint } from "react-to-print";
 function KontenHasil() {
   const [hasil, setHasil] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [kosong, setKosong] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const refUtama = useRef(null);
@@ -47,7 +48,8 @@ function KontenHasil() {
           tipeDominan = data.tipe_kepribadian.nama_tipe;
           persentaseData = data.skor_persentase;
         } else {
-          router.push("/dasbor");
+          setKosong(true);
+          setLoading(false);
           return;
         }
       } else {
@@ -65,7 +67,8 @@ function KontenHasil() {
             tipeDominan = data.tipe_kepribadian.nama_tipe;
             persentaseData = data.skor_persentase;
           } else {
-            router.push("/dasbor");
+            setKosong(true);
+            setLoading(false);
             return;
           }
         } else {
@@ -75,7 +78,8 @@ function KontenHasil() {
             tipeDominan = parsed.tipe_dominan;
             persentaseData = parsed.persentase;
           } else {
-            router.push("/dasbor");
+            setKosong(true);
+            setLoading(false);
             return;
           }
         }
@@ -131,6 +135,23 @@ function KontenHasil() {
     return (
       <main className="min-h-screen bg-[var(--muted)] p-6 md:p-12">
         <SkeletonHasil />
+      </main>
+    );
+  }
+
+  if (kosong) {
+    return (
+      <main className="min-h-screen bg-[var(--background)] p-6 md:p-12 flex items-center justify-center">
+        <Kartu className="text-center p-8 sm:p-12 bg-[var(--kedua)] text-[var(--kedua-foreground)] rounded-2xl border-4 border-[var(--border)] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-xl w-full animasi-hasil">
+          <BookOpen className="w-16 h-16 mx-auto mb-6 opacity-40" />
+          <KartuJudul className="text-3xl mb-4 uppercase tracking-tighter">Belum Ada Hasil</KartuJudul>
+          <KartuDeskripsi className="text-lg font-bold opacity-80 mb-8 text-inherit">
+            Anda belum mengerjakan tes atau data hasil tidak ditemukan. Silakan kerjakan tes terlebih dahulu untuk melihat tipe kepribadian Anda.
+          </KartuDeskripsi>
+          <Tombol varian="utama" onClick={() => router.push("/tes")} className="w-full gap-2 justify-center py-4 text-lg">
+            Mulai Tes Sekarang
+          </Tombol>
+        </Kartu>
       </main>
     );
   }
