@@ -139,6 +139,6 @@ Proyek ini merupakan bagian dari Tugas dari Mata Kuliah **Sistem Berbasis Penget
 
 <div align="center">
 
-Made with ❤️ by Rafly Romeo · 2026
+Made with ❤️ by Rafly Romeo · 2026 
 
 </div>
